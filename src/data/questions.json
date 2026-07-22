@@ -1,0 +1,84 @@
+{
+    "questions":[
+    {
+        "question": "What type of variable is used to store text?",
+        "answer": "String"
+    },
+    {
+        "question": "What Boolean value represents falsehood?",
+        "answer": "False"
+    },
+    {
+        "question": "What symbol is commonly used to assign a value to a variable in most programming languages?",
+        "answer": "="
+    },
+    {
+        "question": "What programming construct is used to make decisions based on conditions?",
+        "answer": "If statement"
+    },
+    {
+        "question": "What numeric data type is used to represent whole numbers without a fractional part?",
+        "answer": "Integer"
+    },
+    {
+        "question": "What punctuation mark is often used at the end of a statement in languages like C, C++, and Java?",
+        "answer": "Semicolon"
+    },
+    {
+        "question": "What do you call a named block of code designed to perform a specific task that can be reused?",
+        "answer": "Function"
+    },
+    {
+        "question": "What is the term for a mistake or flaw in a computer program that causes it to produce an incorrect or unexpected result?",
+        "answer": "Bug"
+    },
+    {
+        "question": "What collection data type holds an ordered sequence of elements, often starting at index 0?",
+        "answer": "Array"
+    },
+    {
+        "question": "What type of data contains only two possible values, such as true or false?",
+        "answer": "Boolean"
+    },
+    {
+        "question": "What data structure operates on a Last-In, First-Out (LIFO) principle?",
+        "answer": "Stack"
+    },
+    {
+        "question": "What data structure operates on a First-In, First-Out (FIFO) principle?",
+        "answer": "Queue"
+    },
+    {
+        "question": "What OOP principle involves bundling the data and methods that operate on the data into a single unit?",
+        "answer": "Encapsulation"
+    },
+    {
+        "question": "What OOP principle allows a class to acquire the properties and methods of another class?",
+        "answer": "Inheritance"
+    },
+    {
+        "question": "What OOP principle allows objects of different classes to be treated as objects of a common superclass?",
+        "answer": "Polymorphism"
+    },
+    {
+        "question": "What HTTP status code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request?",
+        "answer": "500"
+    },
+    {
+        "question": "What term describes a function that calls itself in order to solve a smaller instance of the same problem?",
+        "answer": "Recursion"
+    },
+    {
+        "question": "What acronym describes the four basic functions of persistent storage (Create, Read, Update, Delete)?",
+        "answer": "CRUD"
+    },
+    {
+        "question": "What widely used version control system was created by Linus Torvalds?",
+        "answer": "Git"
+    },
+    {
+        "question": "What is the process of automatically identifying and discarding objects that are no longer needed by a program to free up memory?",
+        "answer": "Garbage Collection"
+    }
+    ]
+}

@@ -1,0 +1,175 @@
+@import url(./index.css);
+body{
+    background-color: var(--bg-color);
+    height: 100vh;
+}
+.content-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    height: 100vh;
+    gap: 20px;
+    
+    &::after{
+        height: fit-content;
+        width: fit-content;
+        position: absolute;
+        content: "← : Previous\A→ : Next\ASpacebar : Flip\AS : Shuffle";
+        white-space: pre;
+        inset: 0;
+        font-family: var(--text-font);
+        margin: 20px;
+        color: var(--dark-color);
+        opacity: .5;
+        font-size: .9rem;
+    }
+}
+/* CONTENT */
+.card-item-count{
+    position: absolute;
+    top: 60px;
+    font-size: 1.4rem;
+}
+.card-progressBar-container{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-radius: 15px;
+    border: 1px solid var(--dark-color);
+    height: 65px;
+    width: 800px;
+    padding: 10px;
+    box-shadow: 5px 5px 0px var(--shadow-color);
+
+    background-color: var(--dark-color);
+}
+.card-progressBar-empty{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    background-color: var(--mute-dark-color);
+    box-shadow: inset 5px 5px 20px var(--dark-color);
+}
+.card-progressBar{
+    transition: .3s ease ;
+    height: 100%;
+    border-radius: 15px;
+    background-color: var(--bg-color);
+    box-shadow:0px 0px 10px var(--dark-color);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    align-items: center;
+}
+.card-progressBar-label{
+    font-size:1rem;
+    opacity: .5;
+    color: var(--dark-color);
+}
+
+.card{
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 8px;
+    border: 5px solid var(--dark-color);
+    height: 500px;
+    width: 800px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+
+    transition: .4s ease;
+    transform-style: preserve-3d;
+
+    box-shadow: 5px 5px var(--shadow-color);
+    p{
+        font-size: 3rem;
+        text-align: center;
+    }
+    h1{
+        font-size: 3rem;
+        text-align: center;
+    }
+}
+.card.flip{
+    transform: rotateY(180deg);
+    box-shadow: -5px 5px var(--shadow-color);
+}
+.frontFace,.backFace{
+    padding: 80px;
+    backface-visibility: hidden;
+    position: absolute;
+}
+.frontFace{
+    transform: rotateY(0deg);
+    justify-content: center;
+    align-items: center;
+    color: var(--dark-color);
+    display: flex;
+    height: 85%;
+    width: 90%;
+    border: .1px dashed var(--mute-border-color);
+    border-radius: 15px;
+}
+.backFace{
+    justify-content: center;
+    align-items: center;
+    color: var(--bg-color);
+    display: flex;
+    height: 99%;
+    width: 99%;
+    border-radius: 5px;
+    transform: rotateY(180deg);
+    background-color: var(--dark-color);
+}
+
+.btn-container{
+    border: 5px solid var(--dark-color);
+    border-radius: 15px;
+    height: 100px;
+    width: 800px;
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 5px 5px var(--shadow-color);
+    position: relative;
+}
+.card-btn{
+    all: unset;
+    user-select: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 5px solid var(--dark-color);
+    width: 200px;
+    height: 60px;
+    transition: .1s ease-in-out;
+    
+    &:nth-child(1){border-radius: 30px 15px 15px 30px;}
+    &:nth-child(2){border-radius: 25px}
+    &:nth-child(3){border-radius: 15px 30px 30px 15px;}
+    &:nth-child(4){ position: absolute; transform: translate(-50%, -50%); left: 50%; top: 150px; height: 0px; width: 0px; padding: 20px 60px; border-radius: 15px; color: var(--mute-border-color); border-color: var(--mute-border-color); }
+    
+    p{
+        font-size: 1.5rem;
+        font-weight: 1000;
+        text-align: center;
+    }
+    &:hover{
+        box-shadow: 5px 5px var(--mute-border-color);
+    }
+    &:active{
+        background-color: var(--button-active);
+        transition: .1s ease-in-out;
+    }
+}
