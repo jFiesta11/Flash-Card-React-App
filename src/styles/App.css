@@ -19,7 +19,8 @@ body{
         position: absolute;
         content: "← : Previous\A→ : Next\ASpacebar : Flip\AS : Shuffle";
         white-space: pre;
-        inset: 0;
+        right: 0;
+        top: 0;
         font-family: var(--text-font);
         margin: 20px;
         color: var(--dark-color);
@@ -175,6 +176,89 @@ body{
 }
 
 /* SIDEBAR */
-.sidebar{
+.open-sidebar{
+    all: unset;
+    cursor: pointer;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 10px;
+    opacity: .5;
+    transition: .1s ease-in-out;
     
+    &:hover{
+        filter: drop-shadow(1px 3px var(--shadow-color)); 
+        transition: .3s ease-in-out;
+    }
+    &:active{
+        transform: translateY(5px);
+        filter: drop-shadow(0px 0px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+    }
+  
+}
+
+.sidebar{
+    background-color: var(--sidebar-bg);
+    border-right: 5px solid var(--dark-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 100vh;
+    overflow: visble;
+    display: flex;
+    flex-direction: column;
+    transition: .2s ease-in-out;
+
+    box-shadow: 3px 0px var(--shadow-color);
+}
+.sideHeader{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 5px;
+    background-color: var(--sidebar-bg);
+    width: 100%;
+    height:60px;
+    border-bottom: solid 5px var(--dark-color);
+    box-shadow: 0px 5px var(--shadow-color);
+
+}
+.sidebar-close-btn{
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    -webkit-user-drag:none;
+    user-select: none;
+    transition: .3s ease-in-out;
+    border: solid 3.5px var(--mute-dark-color);
+    border-radius: 3px;
+    
+    &:hover{
+        filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+    }
+    &:active{
+        transform: translate(1px,1px);
+        filter: drop-shadow(0px 0px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+    }
+
+}
+.sidebar-content-container{
+    height: 100%;
+    width: 100%;
+}
+.dataContainer{
+    height: 90%;
+    width: 100%;
+    padding: 10px;
+}
+.inputs-container{
+    display: flex;
+    justify-content: space-around;
 }
