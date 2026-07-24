@@ -5,22 +5,30 @@ function useInputData() {
     const [answer, setAnswer] = useState("");
     const [cards, setCards] = useState([]);
 
-    const addCard = () => {
+    const addCard = (callback) => {
         const trimmedQuestion = question.trim();
         const trimmedAnswer = answer.trim();
 
-        if (!trimmedQuestion || !trimmedAnswer) return;
+        if (!trimmedQuestion || !trimmedAnswer) return null;
 
-        setCards((prevCards) => [
-            ...prevCards,
-            {
-                questions: trimmedQuestion,
-                answers: trimmedAnswer,
-            },
-        ]);
+        const newCard = {
+            question: trimmedQuestion,
+            answer: trimmedAnswer,
+        };
 
+        setCards((prevCards) => [...prevCards, newCard]);
         setQuestion("");
         setAnswer("");
+
+        if (typeof callback === "function") {
+            callback(newCard);
+        }
+
+        return newCard;
+    };
+
+    const removeCard = (indexToRemove) => {
+        setCards((prevCards) => prevCards.filter((_, index) => index !== indexToRemove));
     };
 
     return {
@@ -30,6 +38,7 @@ function useInputData() {
         setAnswer,
         cards,
         addCard,
+        removeCard,
     };
 }
 

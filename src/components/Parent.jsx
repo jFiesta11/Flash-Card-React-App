@@ -1,10 +1,12 @@
 import MainContent from "./MainContent/MainContent";
 import Sidebar from "./SideBar/Sidebar"
-import card from "../data/questions.json"
+import initialCards from "../data/questions.json"
 import { useEffect, useState } from "react";
 
 function Parent(){
     const [openSideBar, setOpenSidebar] = useState(false)
+    const [flashCards, setFlashCards] = useState(initialCards.questions)
+    const [pendingCards, setPendingCards] = useState(initialCards.questions)
 
     useEffect(() => {
         if (!openSideBar) return
@@ -25,11 +27,30 @@ function Parent(){
         }
     }, [openSideBar])
 
+    const handleAddCard = (newCard) => {
+        setPendingCards((prevCards) => [...prevCards, newCard])
+    }
+
+    const handleRemoveCard = (indexToRemove) => {
+        setPendingCards((prevCards) => prevCards.filter((_, index) => index !== indexToRemove))
+    }
+
+    const handleUpdateDeck = () => {
+        setFlashCards([...pendingCards])
+    }
+
     return (
         <>
-            <MainContent card={card} onOpenSidebar={() => setOpenSidebar((open) => !open)} />
+            <MainContent card={{ questions: flashCards }} onOpenSidebar={() => setOpenSidebar((open) => !open)} />
            
-            <Sidebar isOpen={openSideBar} onCloseSidebar={() => setOpenSidebar(false)} />
+            <Sidebar
+                isOpen={openSideBar}
+                onCloseSidebar={() => setOpenSidebar(false)}
+                onAddCard={handleAddCard}
+                onRemoveCard={handleRemoveCard}
+                cards={pendingCards}
+                onUpdateDeck={handleUpdateDeck}
+            />
         </>
     )
 }

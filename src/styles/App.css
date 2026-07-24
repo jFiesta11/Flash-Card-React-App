@@ -207,17 +207,19 @@ body{
     left: 0;
     width: 600px;
     height: 100vh;
-    overflow: visble;
     display: flex;
     flex-direction: column;
     transition: .2s ease-in-out;
+    overflow: hidden;
 
     box-shadow: 3px 0px var(--shadow-color);
 }
 .sideHeader{
+    position: sticky;
+    top: 0;
     display: flex;
     align-items: center;
-    flex-direction: row-reverse;
+    justify-content: space-between;
     padding: 5px;
     background-color: var(--sidebar-bg);
     width: 100%;
@@ -226,6 +228,48 @@ body{
     box-shadow: 0px 5px var(--shadow-color);
 
 }
+.sideHeader-category-container{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    
+    button{
+        all: unset;
+        display: flex;
+        justify-content: center;
+        width: 50px;
+        height: 100%;
+        border: 2.5px solid var(--dark-color);
+        border-radius: 3px;
+        transition: .1s ease-in-out;
+        
+        
+        img{
+            height: 100%;
+        }
+        &:hover{
+            filter: drop-shadow(2px 2px var(--shadow-color)); 
+            transition: .1s ease-in-out;
+        }
+        &:active{
+            transform: translate(1px,1px);
+            filter: drop-shadow(0px 0px var(--shadow-color)); 
+            transition: .1s ease-in-out;
+        }
+        &:focus{
+            filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+        }
+    }
+    button.active{
+            filter: drop-shadow(2px 2px var(--shadow-color)); 
+            transition: .1s ease-in-out;
+        
+    }
+}
+
+
 .sidebar-close-btn{
     all: unset;
     display: flex;
@@ -251,15 +295,60 @@ body{
 
 }
 .sidebar-content-container{
-    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     width: 100%;
+    min-height: 0;
 }
 .dataContainer{
-    height: 90%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
     width: 100%;
     padding: 10px;
+    gap: 10px;
+    overflow-y: auto;
+    .saved-cards{
+        font-size: 1.5rem;
+    }
+    
+    ol{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    &::-webkit-scrollbar {
+        width: 10px;
+        height: 5px; 
+    }
+    &::-webkit-scrollbar-track {
+    background: var(--sidebar-color);
+    border-radius: 1px;
+    }
+
+    /* The draggable handle */
+    &::-webkit-scrollbar-thumb {
+    background: var(--mute-border-color);
+    border-radius: 2px;
+    }
+
+    /* Draggable handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+    background: var(--mute-dark-color);
+    }
+
 }
 .inputs-container{
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    margin-top: auto;
+    flex-shrink: 0;
+    background-color: var(--sidebar-bg);
+    border-top: 3px solid var(--dark-color);
 }
