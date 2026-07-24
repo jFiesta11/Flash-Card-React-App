@@ -1,12 +1,16 @@
-function DataContainer(){
+function DataContainer({cards = []}){
     return(
         <div className="dataContainer">
             <ul>
-                <li>SAMPLE</li>
-                <li>SAMPLE</li>
-                <li>SAMPLE</li>
-                <li>SAMPLE</li>
-                <li>SAMPLE</li>
+                {cards.length > 0 ? (
+                    cards.map((card, index) => (
+                        <li key={`${card.questions}-${index}`}>
+                            <strong>{card.questions}</strong> - {card.answers}
+                        </li>
+                    ))
+                ) : (
+                    <li>No cards yet</li>
+                )}
             </ul>
         </div>
     )

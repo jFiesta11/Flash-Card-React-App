@@ -180,14 +180,15 @@ body{
     all: unset;
     cursor: pointer;
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     left: 10px;
     opacity: .5;
     transition: .1s ease-in-out;
-    
+    border: 4px solid black;
+    border-radius: 3px;
     &:hover{
-        filter: drop-shadow(1px 3px var(--shadow-color)); 
+        filter: drop-shadow(3px 3px var(--shadow-color)); 
         transition: .3s ease-in-out;
     }
     &:active{
