@@ -1,5 +1,7 @@
 function Statusbar({item, totalItem}){
-    let percentage = Math.round((item/totalItem)*100)
+    const safeTotal = Number(totalItem) || 0;
+    const percentage = safeTotal === 0 ? 0 : Math.round((item / safeTotal) * 100);
+
     return(
         <>
         <div className="card-item-count"><h3>{item} / {totalItem}</h3></div>

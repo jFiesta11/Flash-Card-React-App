@@ -39,6 +39,11 @@ function Parent(){
         setFlashCards([...pendingCards])
     }
 
+    const handleClearAll = () => {
+        setPendingCards([])
+        setFlashCards([])
+    }
+
     return (
         <>
             <MainContent card={{ questions: flashCards }} onOpenSidebar={() => setOpenSidebar((open) => !open)} />
@@ -50,6 +55,7 @@ function Parent(){
                 onRemoveCard={handleRemoveCard}
                 cards={pendingCards}
                 onUpdateDeck={handleUpdateDeck}
+                onClearAll={handleClearAll}
             />
         </>
     )

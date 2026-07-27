@@ -339,16 +339,183 @@ body{
     &::-webkit-scrollbar-thumb:hover {
     background: var(--mute-dark-color);
     }
-
+    li{
+        position: relative;
+        p{
+            color: var(--mute-dark-color);
+        }
+    }
 }
+
+.cards-management{
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    gap: 10px;
+    padding: 0px 10px 0px 10px;
+    font-family: var(--text-font);
+    border-radius: 5px;
+    border: 1px solid var(--mute-dark-color) ;
+    opacity: .6;
+    transition: .1s ease-in-out;
+    img{
+        height: 100%;
+    }
+    &:hover{
+        opacity: .8;
+        filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+        background-color: var(--button-active);
+    }
+        &:focus-visible{
+        opacity: .8;
+        filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+    }
+}
+
+.show-hide-data{
+    all: unset;
+    width: 20px;
+    height: 20px;
+    padding-left: 10px;
+    opacity: .4;
+    &:hover{
+        opacity: .8;
+    }
+}
+
+.remove-btn{
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    opacity: .3;
+    height: 20px;
+    width: 20px;
+    /* border: 2px solid var(--dark-color); */
+    position: absolute;
+    right:  -50px;
+    top: 0;
+    
+    &:hover{
+        opacity: .5;
+    }
+}
+
 .inputs-container{
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: end;
     padding: 10px;
     margin-top: auto;
-    flex-shrink: 0;
+    height: 140px;
     background-color: var(--sidebar-bg);
     border-top: 3px solid var(--dark-color);
+    gap: 8px;
+}
+.question-input{
+        position: relative;
+        &::before{
+            font-family: var(--text-font);
+            top: -25px;
+            left: 15px;
+            position: absolute;
+            content: "Question:";
+            width: 10px;
+            height: 50px;
+        }
+}
+.answer-input{
+    position: relative;
+    
+        &::before{
+            font-family: var(--text-font);
+            top: -25px;
+            left: 15px;
+            position: absolute;
+            content: "Answer:";
+            width: 10px;
+            height: 50px;
+        }
+}
+.inputs-container textarea{
+    all: unset;
+    font-family:var(--text-font);
+    resize: none;
+    height: 80px;
+    width: 250px;
+    border-radius: 8px;
+    border: 2px solid var(--mute-dark-color);
+    opacity: .5;
+    background-color: var(--sidebar-bg);
+    padding: 5px;
+    &:focus{
+        border-color: var(--dark-color);
+        opacity: 1;
+    }
+}
+
+.setButton{
+    all: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px ;
+    border: 3px solid var(--dark-color);
+    width: 35px;
+    height: 35px;
+    align-self: center;
+    opacity: .4;
+    transition: .1s ease-in-out;
+    
+    &:hover{
+        opacity: .8;
+        filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+        background-color: var(--button-active);
+        
+    }
+    &:active{
+        transform: translate(1px,1px);
+        filter: drop-shadow(0px 0px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+    }
+    &:focus-visible{
+        opacity: .8;
+        filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+    }
+}
+.update-btn{
+    all: unset;
+    gap: 10px;
+    height: 40px;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center ;
+    opacity: .6;    
+    border: 1px solid var(--dark-color);
+    margin-bottom: 10px;
+    border-radius: 5px ;
+    transition: .1s ease-in-out;
+    &:hover{
+        opacity: .8;
+        filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+        background-color: var(--button-active);
+    }
+        &:focus-visible{
+        opacity: .8;
+        filter: drop-shadow(2px 2px var(--shadow-color)); 
+        transition: .1s ease-in-out;
+    }
+    img{
+        height: 30px;
+    }
 }

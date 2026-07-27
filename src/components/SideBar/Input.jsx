@@ -1,6 +1,6 @@
-function Input({placeholder, value, onChange, name}){
+function Input({value, onChange, name}){
     return(
-        <input type="text" placeholder={placeholder} value={value} onChange={onChange} name={name}/>
+        <textarea value={value} onChange={onChange} className={name}/>
     )
 }
 
