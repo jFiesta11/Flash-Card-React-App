@@ -329,13 +329,11 @@ body{
     border-radius: 1px;
     }
 
-    /* The draggable handle */
     &::-webkit-scrollbar-thumb {
     background: var(--mute-border-color);
     border-radius: 2px;
     }
 
-    /* Draggable handle on hover */
     &::-webkit-scrollbar-thumb:hover {
     background: var(--mute-dark-color);
     }
@@ -457,6 +455,24 @@ body{
         border-color: var(--dark-color);
         opacity: 1;
     }
+     &::-webkit-scrollbar {
+        width: 10px;
+        height: 5px; 
+    }
+    &::-webkit-scrollbar-track {
+    background: var(--sidebar-color);
+    border-radius: 1px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+    background: var(--mute-border-color);
+    border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+    background: var(--mute-dark-color);
+    }
+    
 }
 
 .setButton{
@@ -465,13 +481,12 @@ body{
     justify-content: center;
     align-items: center;
     border-radius: 5px ;
-    border: 3px solid var(--dark-color);
+    border:2px solid var(--dark-color);
     width: 35px;
     height: 35px;
     align-self: center;
     opacity: .4;
     transition: .1s ease-in-out;
-    
     &:hover{
         opacity: .8;
         filter: drop-shadow(2px 2px var(--shadow-color)); 
