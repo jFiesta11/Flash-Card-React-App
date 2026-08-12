@@ -1,5 +1,5 @@
 import close from "../../assets/images/close-sidebar.svg";
-import flash_cards from "../../assets/images/flash-card.png";
+import flash_cards from "../../assets/images/flash-card.svg";
 import Button from "./Button";
 
 function SideHeader({ onCloseSidebar, isActive }) {

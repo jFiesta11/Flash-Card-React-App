@@ -1,12 +1,12 @@
-import { useState } from "react";
-import SideHeader from "./sideHeader";
+import { useState, useEffect } from "react";
+import SideHeader from "./SideHeader";
 import DataContainer from "./DataContainer";
 import CardForm from "./CardForm";
 import Button from "./Button";
 import useInputData from "../../hooks/useInputData";
 import update_btn from "../../assets/images/update.svg";
 
-function Sidebar({
+function SidebarContent({
   isOpen,
   onCloseSidebar,
   onAddCard,
@@ -18,6 +18,16 @@ function Sidebar({
   const { question, setQuestion, answer, setAnswer, addCard } = useInputData();
   const [revealedAnswers, setRevealedAnswers] = useState({});
   const [showAllAnswers, setShowAllAnswers] = useState(false);
+
+  useEffect(() => {
+    setRevealedAnswers((prev) => {
+      const next = {};
+      cards.forEach((_, index) => {
+        next[index] = prev[index] || false;
+      });
+      return next;
+    });
+  }, [cards]);
 
   const handleAddCard = () => {
     addCard((newCard) => {
@@ -50,12 +60,12 @@ function Sidebar({
 
   return (
     <div
-      className="sidebar"
+      className="sidebar-content"
       data-sidebar="true"
       style={
         isOpen
           ? { transform: "translateX(0)" }
-          : { transform: "translateX(-100%)" }
+          : { transform: "translateX(-110%)" }
       }
     >
       <SideHeader onCloseSidebar={onCloseSidebar} isActive={true} />
@@ -88,4 +98,4 @@ function Sidebar({
   );
 }
 
-export default Sidebar;
+export default SidebarContent;

@@ -1,80 +1,93 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo, useCallback } from "react";
 
-function useCardNav(card){
-    const flashcards = Array.isArray(card?.questions) ? card.questions : []
+function useCardNav(card) {
+  const flashcards = Array.isArray(card?.questions) ? card.questions : [];
+  const flashcardsKey = useMemo(() => JSON.stringify(flashcards), [flashcards]);
 
-    function shuffleArray(array) {
-        const arr = [...array]; 
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        
-        }
-        return arr;
+  function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
+  }
 
-    const [index, setIndex] = useState(0);
-    const [flipCard, setFlipCard] = useState(true)
-    const [flashCards, setflashCards] = useState(() => shuffleArray([...flashcards]))
+  const [index, setIndex] = useState(0);
+  const [flipCard, setFlipCard] = useState(true);
+  const [flashCards, setFlashCards] = useState(() => shuffleArray(flashcards));
 
-    useEffect(() => {
-        setflashCards(shuffleArray([...flashcards]))
-        setIndex(0)
-        setFlipCard(true)
-    }, [flashcards])
+  useEffect(() => {
+    setFlashCards(shuffleArray(flashcards));
+    setIndex(0);
+    setFlipCard(true);
+  }, [flashcardsKey]);
 
-    const currentCard = flashCards[index] || { question: "", answer: "" }
-    const totalCards = flashCards.length
-    
-    const flip = ()=>{ 
-        setFlipCard(front => !front)
-    }
+  useEffect(() => {
+    setIndex((currentIndex) => {
+      if (flashCards.length === 0) return 0;
+      return Math.min(currentIndex, flashCards.length - 1);
+    });
+  }, [flashCards.length]);
 
-    const previous = ()=>{  
-        setFlipCard(true)
-        setIndex(i => {
-            if (totalCards === 0) return 0
-            return Math.max(i - 1, 0)
-        })
-    }
+  const currentCard = flashCards[index] || { question: "", answer: "" };
 
-    const next = ()=>{
-        setFlipCard(true)
-        setIndex(i => {
-            if (totalCards === 0) return 0
-            return Math.min(i + 1, Math.max(totalCards - 1, 0))
-        })
-    }
+  const flip = useCallback(() => {
+    setFlipCard((front) => !front);
+  }, []);
 
-    const shuffle = ()=>{
-        setFlipCard(true)
-        setflashCards(shuffleArray([...flashcards]))
-        setIndex(0)
-    }
-    
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            const target = e.target;
-            const isTypingInInput = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement;
+  const previous = useCallback(() => {
+    setFlipCard(true);
+    setIndex((i) => Math.max(i - 1, 0));
+  }, []);
 
-            if (isTypingInInput) return;
+  const next = useCallback(() => {
+    setFlipCard(true);
+    setIndex((i) => {
+      if (flashCards.length === 0) return 0;
+      return Math.min(i + 1, flashCards.length - 1);
+    });
+  }, [flashCards.length]);
 
-            if (e.key === "ArrowRight") next();
-            if (e.key === "ArrowLeft") previous();
-            if (e.key === " "){  
-                e.preventDefault() 
-                flip()
-            }
-            if(e.key === 's') shuffle()
-        };
+  const shuffle = useCallback(() => {
+    setFlipCard(true);
+    setFlashCards(shuffleArray(flashcards));
+    setIndex(0);
+  }, [flashcards]);
 
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [flashcards]);
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const target = e.target;
+      const isTypingInInput =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement;
 
+      if (isTypingInInput) return;
 
-    return {shuffle, index, next, previous, flip, currentCard, flipCard, flashCards}
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") previous();
+      if (e.key === " ") {
+        e.preventDefault();
+        flip();
+      }
+      if (e.key === "s") shuffle();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [next, previous, flip, shuffle]);
+
+  return {
+    shuffle,
+    index,
+    next,
+    previous,
+    flip,
+    currentCard,
+    flipCard,
+    flashCards,
+  };
 }
 
-export default useCardNav
+export default useCardNav;
