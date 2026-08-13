@@ -1,23 +1,28 @@
-:root{
-    --bg-color: #F5F1ED;
-        --button-active : #d6d2cd;
-        --sidebar-bg: #f5f1ec;
-    --dark-color: #252323;
-        --mute-dark-color:#373434 ;
-    --shadow-color: #70798C;
-        --mute-border-color: #70798c6b ;
-    --text-font: "Margarine", 'sans-serif';
-
+:root {
+  --bg-color: #f5f1ed;
+  --button-active: #d6d2cd;
+  --sidebar-bg: #f5f1ec;
+  --dark-color: #252323;
+  --mute-dark-color: #373434;
+  --shadow-color: #70798c;
+  --mute-border-color: #70798c6b;
+  --hover-shadow-color: #5c626d;
+  --text-font: "Margarine", "sans-serif";
 }
 
-*,*::before,*::after{
-    box-sizing: border-box;
-    margin: 0;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
 }
-h1,h2,h3, li{
-    font-family: "Margarine", 'sans-serif';
+h1,
+h2,
+h3,
+li {
+  font-family: "Margarine", "sans-serif";
 }
-p{
-    font-family: "Indie Flower", cursive;
-    font-weight: 1000;
+p {
+  font-family: "Indie Flower", cursive;
+  font-weight: 1000;
 }
