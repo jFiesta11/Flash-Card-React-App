@@ -112,6 +112,7 @@ body {
   padding: 80px;
   backface-visibility: hidden;
   position: absolute;
+  overflow-wrap: anywhere;
 }
 .frontFace {
   transform: rotateY(0deg);
@@ -401,7 +402,7 @@ body {
   }
   li {
     position: relative;
-    height: 7vh;
+    overflow-wrap: break-word;
     p {
       color: var(--mute-dark-color);
     }

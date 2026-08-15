@@ -5,6 +5,7 @@ function Input({ value, onChange, name, placeholder }) {
       onChange={onChange}
       className={name}
       placeholder={placeholder}
+      maxLength={100}
     />
   );
 }
