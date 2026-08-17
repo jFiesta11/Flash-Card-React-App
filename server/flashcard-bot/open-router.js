@@ -1,4 +1,7 @@
-async function askBot(prompt) {
+const { flashcardFormatPrompt } = require("./context/prompt");
+
+async function askBot(extractedText) {
+  const prompt = flashcardFormatPrompt(extractedText);
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -10,13 +13,12 @@ async function askBot(prompt) {
       messages: [
         {
           role: "user",
-          content: "hello",
+          content: prompt,
         },
       ],
     }),
   });
   const data = await res.json();
-  console.log(JSON.stringify(data, null, 2));
   return data.choices[0].message.content;
 }
 
