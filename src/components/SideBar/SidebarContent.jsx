@@ -56,6 +56,7 @@ function SidebarContent({
   const handleClearAll = () => {
     onClearAll?.();
     setRevealedAnswers({});
+    setShowAllAnswers(false);
   };
 
   return (
@@ -77,6 +78,7 @@ function SidebarContent({
           onClearAll={handleClearAll}
           revealedAnswers={revealedAnswers}
           onToggleAnswer={handleToggleAnswer}
+          showAllAnswers={showAllAnswers}
         />
         <CardForm
           question={question}

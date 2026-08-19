@@ -1,8 +1,6 @@
-import { useState } from "react";
 import remove_data_btn from "../../assets/images/remove-data.svg";
 import show_ans from "../../assets/images/show-ans.svg";
 import hide_ans from "../../assets/images/hide-ans.svg";
-import more_options from "../../assets/images/more.svg";
 
 function DataContainer({
   cards = [],
@@ -11,6 +9,7 @@ function DataContainer({
   onClearAll,
   revealedAnswers,
   onToggleAnswer,
+  showAllAnswers,
 }) {
   return (
     <div className="dataContainer">
@@ -21,7 +20,11 @@ function DataContainer({
           type="button"
           onClick={onRevealAll}
         >
-          <img src={show_ans} alt="show-ans" /> Reveal all answers
+          <img
+            src={showAllAnswers ? hide_ans : show_ans}
+            alt={showAllAnswers ? "hide-answers" : "show-answers"}
+          />
+          {showAllAnswers ? " Hide all answers" : " Reveal all answers"}
         </button>
         <button className="cards-management" type="button" onClick={onClearAll}>
           <img src={remove_data_btn} alt="delete-all" />
