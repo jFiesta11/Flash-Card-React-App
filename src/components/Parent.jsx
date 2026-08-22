@@ -3,7 +3,7 @@ import SidebarContent from "./SideBar/SidebarContent";
 import initialCards from "../data/questions.json";
 import { useEffect, useState } from "react";
 
-function Parent() {
+function Parent({ onUploadFile }) {
   const [openSideBar, setOpenSidebar] = useState(false);
   const [flashCards, setFlashCards] = useState(initialCards.questions);
   const [pendingCards, setPendingCards] = useState(initialCards.questions);
@@ -14,8 +14,9 @@ function Parent() {
     const handleClickOutside = (event) => {
       const clickedInsideSidebar = event.target.closest("[data-sidebar]");
       const clickedOpenButton = event.target.closest(".open-sidebar");
+      const clickedInsideUpload = event.target.closest(".upload-overlay");
 
-      if (!clickedInsideSidebar && !clickedOpenButton) {
+      if (!clickedInsideSidebar && !clickedOpenButton && !clickedInsideUpload) {
         setOpenSidebar(false);
       }
     };
@@ -61,6 +62,7 @@ function Parent() {
         cards={pendingCards}
         onUpdateDeck={handleUpdateDeck}
         onClearAll={handleClearAll}
+        onUploadFile={onUploadFile}
       />
     </>
   );

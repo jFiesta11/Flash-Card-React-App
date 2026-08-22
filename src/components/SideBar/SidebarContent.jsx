@@ -14,6 +14,7 @@ function SidebarContent({
   cards,
   onUpdateDeck,
   onClearAll,
+  onUploadFile,
 }) {
   const { question, setQuestion, answer, setAnswer, addCard } = useInputData();
   const [revealedAnswers, setRevealedAnswers] = useState({});
@@ -86,6 +87,7 @@ function SidebarContent({
           onQuestionChange={(e) => setQuestion(e.target.value)}
           onAnswerChange={(e) => setAnswer(e.target.value)}
           onSubmit={handleAddCard}
+          onUploadFile={onUploadFile}
         />
         <div className="card-upd-button">
           <Button
