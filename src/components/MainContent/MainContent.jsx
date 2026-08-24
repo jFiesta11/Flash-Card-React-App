@@ -1,5 +1,3 @@
-// image
-import sidebarIcon from "../../assets/images/open-sidebar.svg";
 // data
 import useCardNav from "../../hooks/useCardNav";
 // components
@@ -7,9 +5,6 @@ import Button from "./Button";
 import Statusbar from "./Statusbar";
 import Card from "./Card";
 import SideBar from "../MainContent/SideBar";
-// hook
-import { useState, useEffect } from "react";
-
 function MainContent({ card, onOpenSidebar }) {
   const {
     shuffle,

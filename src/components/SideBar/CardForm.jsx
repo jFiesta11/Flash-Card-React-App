@@ -13,6 +13,8 @@ function CardForm({
   onAnswerChange,
   onSubmit,
   onUploadFile,
+  isUploading,
+  uploadError,
 }) {
   const [showMore, setShowMore] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -40,8 +42,10 @@ function CardForm({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleUploadSubmit = () => {
-    if (selectedFile) onUploadFile?.(selectedFile);
+  const handleUploadSubmit = async () => {
+    if (!selectedFile) return;
+
+    await onUploadFile?.(selectedFile);
   };
 
   const formatFileSize = (size) => {
@@ -141,13 +145,14 @@ function CardForm({
                 </div>
                 <div className="upload-dialog-actions">
                   <span>Make sure the uploaded files are reviewers!</span>
+                  {uploadError && <span role="alert">{uploadError}</span>}
                   <button
                     type="button"
                     className="upload-submit"
-                    disabled={!selectedFile}
+                    disabled={!selectedFile || isUploading}
                     onClick={handleUploadSubmit}
                   >
-                    Submit
+                    {isUploading ? "Generating..." : "Submit"}
                   </button>
                 </div>
               </div>

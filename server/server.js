@@ -5,10 +5,11 @@ const botroute = require("./routes/bot");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: clientOrigin,
   }),
 );
 app.use(express.json());

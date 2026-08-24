@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 function Card({ click, front, back, showAnswer }) {
   return (
     <div onClick={click} className={showAnswer ? "card" : "card flip"}>

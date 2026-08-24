@@ -1,8 +1,10 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 
 function useCardNav(card) {
-  const flashcards = Array.isArray(card?.questions) ? card.questions : [];
-  const flashcardsKey = useMemo(() => JSON.stringify(flashcards), [flashcards]);
+  const flashcardsKey = JSON.stringify(
+    Array.isArray(card?.questions) ? card.questions : [],
+  );
+  const flashcards = useMemo(() => JSON.parse(flashcardsKey), [flashcardsKey]);
 
   function shuffleArray(array) {
     const arr = [...array];
@@ -21,7 +23,7 @@ function useCardNav(card) {
     setFlashCards(shuffleArray(flashcards));
     setIndex(0);
     setFlipCard(true);
-  }, [flashcardsKey]);
+  }, [flashcardsKey, flashcards]);
 
   useEffect(() => {
     setIndex((currentIndex) => {

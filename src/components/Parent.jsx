@@ -3,10 +3,12 @@ import SidebarContent from "./SideBar/SidebarContent";
 import initialCards from "../data/questions.json";
 import { useEffect, useState } from "react";
 
-function Parent({ onUploadFile }) {
+function Parent() {
   const [openSideBar, setOpenSidebar] = useState(false);
   const [flashCards, setFlashCards] = useState(initialCards.questions);
   const [pendingCards, setPendingCards] = useState(initialCards.questions);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   useEffect(() => {
     if (!openSideBar) return;
@@ -46,6 +48,39 @@ function Parent({ onUploadFile }) {
     setPendingCards([]);
     setFlashCards([]);
   };
+  const handleUploadFile = async (file) => {
+    setIsUploading(true);
+    setUploadError("");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const response = await fetch(`${apiUrl}/api/chat`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to generate flashcards");
+      }
+
+      const data = await response.json();
+      const generatedCards = data.flashcards?.questions;
+
+      if (!Array.isArray(generatedCards)) {
+        throw new Error("The server returned an invalid flashcard list");
+      }
+
+      setPendingCards(generatedCards);
+    } catch (error) {
+      setUploadError(error.message || "Failed to generate flashcards");
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <>
@@ -62,7 +97,9 @@ function Parent({ onUploadFile }) {
         cards={pendingCards}
         onUpdateDeck={handleUpdateDeck}
         onClearAll={handleClearAll}
-        onUploadFile={onUploadFile}
+        onUploadFile={handleUploadFile}
+        isUploading={isUploading}
+        uploadError={uploadError}
       />
     </>
   );

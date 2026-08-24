@@ -19,7 +19,17 @@ async function askBot(extractedText) {
     }),
   });
   const data = await res.json();
-  return data.choices[0].message.content;
+
+  if (!res.ok) {
+    throw new Error(data.error?.message || "OpenRouter request failed");
+  }
+
+  const content = data.choices?.[0]?.message?.content;
+  if (typeof content !== "string" || !content.trim()) {
+    throw new Error("OpenRouter returned no response content");
+  }
+
+  return content;
 }
 
 module.exports = { askBot };

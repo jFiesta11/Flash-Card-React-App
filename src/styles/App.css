@@ -584,6 +584,10 @@ body {
     box-shadow: 4px 4px 0 var(--shadow-color);
     transform: translate(-2px, -2px);
   }
+  &:active:not(:disabled) {
+    box-shadow: 0px 0px 0 var(--shadow-color);
+    transform: translate(1px, 1px);
+  }
   &:disabled {
     cursor: not-allowed;
     opacity: 0.2;
@@ -756,7 +760,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  color: var(--shadow-color);
+  color: var(--dark-color);
   font-family: var(--small-text-font);
   strong,
   span {
@@ -790,7 +794,7 @@ body {
 .replace-upload {
   grid-column: 2 / 3;
   cursor: pointer;
-  color: var(--shadow-color);
+  color: var(--dark-color);
   font-family: var(--small-text-font);
   font-size: 1rem;
   text-decoration: underline;

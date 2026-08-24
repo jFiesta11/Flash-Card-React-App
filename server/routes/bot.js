@@ -8,6 +8,10 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/chat", upload.single("file"), async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ error: "A PDF or DOCX file is required" });
+    }
+
     console.log("Received mimetype:", req.file.mimetype);
     const extractedText = await extractTextfromDoc(
       req.file.buffer,
@@ -19,7 +23,7 @@ router.post("/chat", upload.single("file"), async (req, res) => {
     let flashcards;
     try {
       flashcards = JSON.parse(cleanedRes);
-    } catch (error) {
+    } catch {
       return res
         .status(500)
         .json({ error: "Bot did not return a valid response", raw: rawRes });
