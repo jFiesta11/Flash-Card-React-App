@@ -74,9 +74,12 @@ function Parent() {
         throw new Error("The server returned an invalid flashcard list");
       }
 
-      setPendingCards(generatedCards);
+      // append to the current deck instead of replacing every previous card.
+      setPendingCards((prevCards) => [...prevCards, ...generatedCards]);
+      return true;
     } catch (error) {
       setUploadError(error.message || "Failed to generate flashcards");
+      return false;
     } finally {
       setIsUploading(false);
     }

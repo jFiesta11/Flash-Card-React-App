@@ -43,9 +43,17 @@ function CardForm({
   };
 
   const handleUploadSubmit = async () => {
-    if (!selectedFile) return;
+    if (!selectedFile || isUploading) return;
 
-    await onUploadFile?.(selectedFile);
+    // this lets the modal close only after the upload succeeds.
+    const uploadSucceeded = await onUploadFile?.(selectedFile);
+
+    if (uploadSucceeded) {
+      // hide the file upload dialog after generation finishes.
+      setShowMore(false);
+      setSelectedFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const formatFileSize = (size) => {
@@ -78,10 +86,15 @@ function CardForm({
                 aria-modal="true"
                 aria-labelledby="upload-title"
               >
+                {/* this is the upload modal UI while the file is being processed. */}
                 <div className="upload-dialog-header">
                   <div>
                     <span className="upload-eyebrow">upload reviewer</span>
-                    <h2 id="upload-title">Drop your file here</h2>
+                    <h2 id="upload-title">
+                      {isUploading
+                        ? "Generating your flashcards..."
+                        : "Drop your file here"}
+                    </h2>
                   </div>
                   <Button
                     className={"close-upload"}
@@ -152,6 +165,7 @@ function CardForm({
                     disabled={!selectedFile || isUploading}
                     onClick={handleUploadSubmit}
                   >
+                    {/* the button text changes while the backend request is running. */}
                     {isUploading ? "Generating..." : "Submit"}
                   </button>
                 </div>

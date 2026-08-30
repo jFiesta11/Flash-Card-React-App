@@ -1,18 +1,16 @@
 const { flashcardFormatPrompt } = require("./context/prompt");
 
 const MODEL_CHAIN = [
-  "dots-studio/dots-3-note-preview:free",
+  "thinkingmachines/inkling-small:free",
   "inclusionai/ling-3.0-flash-fin:free",
   "nvidia/nemotron-3.5-lightning:free",
-  "thinkingmachines/inkling-small:free",
-  "poolside/laguna-s-2.1:free",
   "cohere/north-mini-code:free",
-  "nvidia/nemotron-3-ultra-550b-a55b:free",
-  "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+  "poolside/laguna-s-2.1:free",
   "google/gemma-4-26b-a4b-it:free",
-  "google/gemma-4-31b-it:free",
 ];
-const TIMEOUT_MS = 15000;
+const TIMEOUT_MS = 12000;
+const MODEL_BATCH_SIZE = 2;
+const MAX_MODEL_ATTEMPTS = 3;
 
 function isValidContent(data) {
   const content = data?.choices?.[0]?.message?.content;
@@ -56,18 +54,39 @@ async function callBot(model, prompt) {
 
 async function askBot(extractedText) {
   const prompt = flashcardFormatPrompt(extractedText);
-  let lastError;
+  const errors = [];
 
-  for (const model of MODEL_CHAIN) {
+  for (
+    let index = 0;
+    index < Math.min(MODEL_CHAIN.length, MAX_MODEL_ATTEMPTS);
+    index += MODEL_BATCH_SIZE
+  ) {
+    const batch = MODEL_CHAIN.slice(index, index + MODEL_BATCH_SIZE);
+
     try {
-      return await callBot(model, prompt);
-    } catch (err) {
-      lastError = err;
-      console.error(`Model "${model}" failed ${err.message}`);
-      continue;
+      const result = await Promise.any(
+        batch.map(async (model) => {
+          try {
+            return await callBot(model, prompt);
+          } catch (error) {
+            console.error(`Model "${model}" failed: ${error.message}`);
+            throw error;
+          }
+        }),
+      );
+
+      return result;
+    } catch (batchError) {
+      const batchFailures =
+        batchError instanceof AggregateError ? batchError.errors : [batchError];
+      errors.push(...batchFailures);
     }
   }
-  throw new Error(`All Models failed: ${lastError?.message}`);
+
+  const lastError = errors.at(-1);
+  throw new Error(
+    `All Models failed: ${lastError?.message || "Unknown error"}`,
+  );
 }
 
 module.exports = { askBot };
