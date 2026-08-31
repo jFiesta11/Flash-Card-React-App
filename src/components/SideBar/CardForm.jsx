@@ -6,6 +6,8 @@ import set from "../../assets/images/enter.svg";
 import more from "../../assets/images/more.svg";
 import upload from "../../assets/images/set.svg";
 import closeUpload from "../../assets/images/close-sidebar.svg";
+import useUploadedFiles from "../../hooks/checkFileDup";
+
 function CardForm({
   question,
   answer,
@@ -20,6 +22,8 @@ function CardForm({
   const [selectedFile, setSelectedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
+  const { duplicateError, setDuplicateError } = useState(null);
+  const { checkFileName } = useRef(null);
 
   const handleShowMore = () => {
     setShowMore((state) => !state);
@@ -27,14 +31,31 @@ function CardForm({
 
   const handleFileChange = (event) => {
     const [file] = event.target.files;
-    if (file) setSelectedFile(file);
+
+    if (!file) return;
+
+    const isNewFile = checkFileName(file);
+    if (!isNewFile) {
+      setDuplicateError(`"${file.name}" has already been updated.`);
+      return;
+    }
+    setDuplicateError(null);
+    setSelectedFile(file);
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
     setIsDragging(false);
     const [file] = event.dataTransfer.files;
-    if (file) setSelectedFile(file);
+    if (!file) return;
+
+    const isNewFile = checkFileName(file);
+    if (!isNewFile) {
+      setDuplicateError(`"${file.name}" has already been uploaded.`);
+      return;
+    }
+    setDuplicateError(null);
+    setSelectedFile(file);
   };
 
   const handleRemoveFile = () => {
@@ -158,6 +179,7 @@ function CardForm({
                 </div>
                 <div className="upload-dialog-actions">
                   <span>Make sure the uploaded files are reviewers!</span>
+                  {duplicateError && <span role="alert">{duplicateError}</span>}
                   {uploadError && <span role="alert">{uploadError}</span>}
                   <button
                     type="button"
