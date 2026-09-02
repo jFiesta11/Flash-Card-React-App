@@ -1,19 +1,35 @@
 import { useState } from "react";
 
 function useUploadedFiles() {
-  const [uploadedFiles, setUploadedFiles] = useState(new Set());
-  const [error, setError] = useState(null);
+  const [uploadedFiles, setUploadedFiles] = useState(() => new Set());
+  const [duplicateError, setDuplicateError] = useState("");
 
   function checkFileName(file) {
     if (uploadedFiles.has(file.name)) {
-      setError(`" ${file.name} " has already been uploaded.`);
+      setDuplicateError(`"${file.name}" has already been uploaded.`);
       return false;
     }
-    setError(null);
+
+    setDuplicateError("");
     setUploadedFiles((prev) => new Set(prev).add(file.name));
     return true;
   }
-  return { checkFileName, uploadedFiles, error };
+
+  function removeFileName(fileName) {
+    setUploadedFiles((prev) => {
+      const nextFiles = new Set(prev);
+      nextFiles.delete(fileName);
+      return nextFiles;
+    });
+  }
+
+  return {
+    checkFileName,
+    removeFileName,
+    uploadedFiles,
+    duplicateError,
+    setDuplicateError,
+  };
 }
 
 export default useUploadedFiles;

@@ -22,8 +22,8 @@ function CardForm({
   const [selectedFile, setSelectedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
-  const { duplicateError, setDuplicateError } = useState(null);
-  const { checkFileName } = useRef(null);
+  const { checkFileName, removeFileName, duplicateError, setDuplicateError } =
+    useUploadedFiles();
 
   const handleShowMore = () => {
     setShowMore((state) => !state);
@@ -59,6 +59,10 @@ function CardForm({
   };
 
   const handleRemoveFile = () => {
+    if (selectedFile) {
+      removeFileName(selectedFile.name);
+    }
+    setDuplicateError("");
     setSelectedFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
