@@ -4,22 +4,29 @@ import initialCards from "../data/questions.json";
 import { useEffect, useState } from "react";
 
 function Parent() {
-  const [openSideBar, setOpenSidebar] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeFeature, setActiveFeature] = useState("flashcards");
   const [flashCards, setFlashCards] = useState(initialCards.questions);
   const [pendingCards, setPendingCards] = useState(initialCards.questions);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
   useEffect(() => {
-    if (!openSideBar) return;
+    if (!isSidebarOpen) return;
 
     const handleClickOutside = (event) => {
       const clickedInsideSidebar = event.target.closest("[data-sidebar]");
-      const clickedOpenButton = event.target.closest(".open-sidebar");
+      const clickedSidebarToggle = event.target.closest(
+        ".sidebar-toggle, .edit-btn",
+      );
       const clickedInsideUpload = event.target.closest(".upload-overlay");
 
-      if (!clickedInsideSidebar && !clickedOpenButton && !clickedInsideUpload) {
-        setOpenSidebar(false);
+      if (
+        !clickedInsideSidebar &&
+        !clickedSidebarToggle &&
+        !clickedInsideUpload
+      ) {
+        setIsSidebarOpen(false);
       }
     };
 
@@ -28,7 +35,7 @@ function Parent() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [openSideBar]);
+  }, [isSidebarOpen]);
 
   const handleAddCard = (newCard) => {
     setPendingCards((prevCards) => [...prevCards, newCard]);
@@ -89,12 +96,17 @@ function Parent() {
     <>
       <MainContent
         card={{ questions: flashCards }}
-        onOpenSidebar={() => setOpenSidebar((open) => !open)}
+        onToggleSidebar={() => setIsSidebarOpen((open) => !open)}
+        onShowFlashcards={() => setActiveFeature("flashcards")}
+        onShowNextFeature={() => {
+          setActiveFeature("next");
+          setIsSidebarOpen(false);
+        }}
+        activeFeature={activeFeature}
       />
-
       <SidebarContent
-        isOpen={openSideBar}
-        onCloseSidebar={() => setOpenSidebar(false)}
+        isOpen={isSidebarOpen}
+        onCloseSidebar={() => setIsSidebarOpen(false)}
         onAddCard={handleAddCard}
         onRemoveCard={handleRemoveCard}
         cards={pendingCards}

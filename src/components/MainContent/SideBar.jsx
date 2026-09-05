@@ -1,7 +1,7 @@
 import Button from "./Button";
 import flashcardIcon from "../../assets/images/flash-card.svg";
 import defaultUserProfile from "../../assets/images/user-default.svg";
-function SideBar({ OpenSideBar }) {
+function SideBar({ onShowFlashcards, onShowNextFeature }) {
   return (
     <>
       <div className="sidebar">
@@ -14,10 +14,17 @@ function SideBar({ OpenSideBar }) {
         </div>
         <div className="reviewer-buttons">
           <Button
-            className="open-sidebar"
+            className="sidebar-toggle"
             img={flashcardIcon}
-            imgAlt="openSideBar"
-            onClick={OpenSideBar}
+            imgAlt="Flashcard editor"
+            ariaLabel="Flashcards"
+            onClick={onShowFlashcards}
+          />
+          <button
+            type="button"
+            className="feature-entry"
+            aria-label="Open next feature"
+            onClick={onShowNextFeature}
           />
         </div>
       </div>
