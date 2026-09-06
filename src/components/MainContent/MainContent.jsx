@@ -28,6 +28,7 @@ function MainContent({
       <SideBar
         onShowFlashcards={onShowFlashcards}
         onShowNextFeature={onShowNextFeature}
+        activePage="flashcards"
       />
       <Button
         className="edit-btn"

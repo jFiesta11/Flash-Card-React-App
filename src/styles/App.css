@@ -28,21 +28,6 @@ body {
     font-size: 0.9rem;
   }
 }
-.feature-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  min-height: 100vh;
-  padding: 20px;
-  text-align: center;
-}
-.feature-placeholder a {
-  color: var(--dark-color);
-  font-family: var(--small-text-font);
-  font-size: 1.2rem;
-}
 /* CONTENT */
 
 .card-progressBar-container {
@@ -334,6 +319,10 @@ body {
   border-radius: 7px;
   &:hover {
     background-color: var(--button-active);
+  }
+  &.active {
+    background-color: var(--button-active);
+    box-shadow: 3px 3px var(--dark-color);
   }
 }
 /* SIDEBAR */
