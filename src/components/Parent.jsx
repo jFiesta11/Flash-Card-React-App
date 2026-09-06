@@ -2,10 +2,11 @@ import MainContent from "./MainContent/MainContent";
 import SidebarContent from "./SideBar/SidebarContent";
 import initialCards from "../data/questions.json";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Parent() {
+  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeFeature, setActiveFeature] = useState("flashcards");
   const [flashCards, setFlashCards] = useState(initialCards.questions);
   const [pendingCards, setPendingCards] = useState(initialCards.questions);
   const [isUploading, setIsUploading] = useState(false);
@@ -97,12 +98,11 @@ function Parent() {
       <MainContent
         card={{ questions: flashCards }}
         onToggleSidebar={() => setIsSidebarOpen((open) => !open)}
-        onShowFlashcards={() => setActiveFeature("flashcards")}
+        onShowFlashcards={() => navigate("/")}
         onShowNextFeature={() => {
-          setActiveFeature("next");
           setIsSidebarOpen(false);
+          navigate("/blurting");
         }}
-        activeFeature={activeFeature}
       />
       <SidebarContent
         isOpen={isSidebarOpen}
