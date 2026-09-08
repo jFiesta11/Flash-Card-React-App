@@ -1,5 +1,5 @@
 import Parent from "./components/Parent.jsx";
-import Blurting from "./components/Blurting.jsx";
+import Blurting from "./components/Blurting/Blurting.jsx";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
 import "./styles/App.css";

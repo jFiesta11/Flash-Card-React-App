@@ -1,4 +1,4 @@
-import MainContent from "./MainContent/MainContent";
+import FlashCard from "./Flashcard/FlashCard";
 import SidebarContent from "./SideBar/SidebarContent";
 import initialCards from "../data/questions.json";
 import { useEffect, useState } from "react";
@@ -95,7 +95,7 @@ function Parent() {
 
   return (
     <>
-      <MainContent
+      <FlashCard
         card={{ questions: flashCards }}
         onToggleSidebar={() => setIsSidebarOpen((open) => !open)}
         onShowFlashcards={() => navigate("/")}

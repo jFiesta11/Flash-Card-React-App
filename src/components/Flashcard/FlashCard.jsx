@@ -1,13 +1,11 @@
-// data
 import useCardNav from "../../hooks/useCardNav";
-// components
 import Button from "./Button";
 import Statusbar from "./Statusbar";
 import Card from "./Card";
-import SideBar from "../MainContent/SideBar";
-// assets
+import SideBar from "./SideBar";
 import editIcon from "../../assets/images/edit-btn.svg";
-function MainContent({
+
+function FlashCard({
   card,
   onToggleSidebar,
   onShowFlashcards,
@@ -23,6 +21,7 @@ function MainContent({
     flipCard,
     flashCards,
   } = useCardNav(card);
+
   return (
     <>
       <SideBar
@@ -45,13 +44,13 @@ function MainContent({
         showAnswer={flipCard}
       />
       <div className="btn-container">
-        <Button className="card-btn" label={"Previous"} onClick={previous} />
-        <Button className="card-btn" label={"Flip"} onClick={flip} />
-        <Button className="card-btn" label={"Next"} onClick={next} />
-        <Button className="card-btn" label={"Shuffle"} onClick={shuffle} />
+        <Button className="card-btn" label="Previous" onClick={previous} />
+        <Button className="card-btn" label="Flip" onClick={flip} />
+        <Button className="card-btn" label="Next" onClick={next} />
+        <Button className="card-btn" label="Shuffle" onClick={shuffle} />
       </div>
     </>
   );
 }
 
-export default MainContent;
+export default FlashCard;
