@@ -201,7 +201,7 @@ body {
 .edit-btn {
   all: unset;
   position: absolute;
-  z-index: 2;
+  z-index: 0;
   top: 40%;
   left: 22%;
   width: 35px;

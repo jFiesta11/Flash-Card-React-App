@@ -1,6 +1,6 @@
 import SideBar from "../Flashcard/SideBar";
 import Canvas from "./Canvas";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Blurting() {
   const navigate = useNavigate();
