@@ -1,4 +1,12 @@
-function Canvas() {
+import { useEffect, useRef } from "react";
+
+function Canvas({ clearSignal }) {
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (clearSignal > 0) formRef.current?.reset();
+  }, [clearSignal]);
+
   const handleClear = (event) => {
     event.currentTarget.form.reset();
   };
@@ -15,7 +23,7 @@ function Canvas() {
         </div>
         <span className="blurting-status">Free write</span>
       </header>
-      <form className="canvas-form">
+      <form ref={formRef} className="canvas-form">
         <label className="canvas-label" htmlFor="blurting-notes">
           What do you remember?
         </label>

@@ -21,6 +21,7 @@ function SideHeader({ onCloseSidebar, isActive }) {
         imgAlt="closeButton"
         className="sidebar-close-btn"
         onClick={onCloseSidebar}
+        ariaLabel="Close flashcard editor"
       />
     </header>
   );

@@ -66,6 +66,9 @@ function SidebarContent({
     <div
       className="sidebar-content"
       data-sidebar="true"
+      role="dialog"
+      aria-label="Edit flashcards"
+      aria-hidden={!isOpen}
       style={
         isOpen
           ? { transform: "translateX(0)" }

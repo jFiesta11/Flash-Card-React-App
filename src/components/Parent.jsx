@@ -99,10 +99,7 @@ function Parent() {
         card={{ questions: flashCards }}
         onToggleSidebar={() => setIsSidebarOpen((open) => !open)}
         onShowFlashcards={() => navigate("/")}
-        onShowNextFeature={() => {
-          setIsSidebarOpen(false);
-          navigate("/blurting");
-        }}
+        onShowBlurting={() => navigate("/blurting")}
       />
       <SidebarContent
         isOpen={isSidebarOpen}

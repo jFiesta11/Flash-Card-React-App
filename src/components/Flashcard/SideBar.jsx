@@ -1,11 +1,9 @@
 import Button from "./Button";
 import flashcardIcon from "../../assets/images/flash-card.svg";
+import blurtingIcon from "../../assets/images/blurting.svg";
 import defaultUserProfile from "../../assets/images/user-default.svg";
-function SideBar({
-  onShowFlashcards,
-  onShowNextFeature,
-  activePage = "flashcards",
-}) {
+
+function SideBar({ onShowFlashcards, onShowBlurting }) {
   return (
     <>
       <div className="sidebar">
@@ -18,19 +16,21 @@ function SideBar({
         </div>
         <div className="reviewer-buttons">
           <Button
-            className="sidebar-toggle"
+            className="sidebar-toggle active"
             img={flashcardIcon}
             imgAlt="Flashcard editor"
             ariaLabel="Flashcards"
             onClick={onShowFlashcards}
-            className={`sidebar-toggle${activePage === "flashcards" ? " active" : ""}`}
           />
           <button
             type="button"
-            className={`feature-entry${activePage === "blurting" ? " active" : ""}`}
+            className="sidebar-toggle"
             aria-label="Open blurting"
-            onClick={onShowNextFeature}
-          />
+            title="Open blurting"
+            onClick={onShowBlurting}
+          >
+            <img src={blurtingIcon} alt="Blurting workspace" />
+          </button>
         </div>
       </div>
     </>

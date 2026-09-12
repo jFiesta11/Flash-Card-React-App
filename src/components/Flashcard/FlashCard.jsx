@@ -9,7 +9,7 @@ function FlashCard({
   card,
   onToggleSidebar,
   onShowFlashcards,
-  onShowNextFeature,
+  onShowBlurting,
 }) {
   const {
     shuffle,
@@ -26,8 +26,7 @@ function FlashCard({
     <>
       <SideBar
         onShowFlashcards={onShowFlashcards}
-        onShowNextFeature={onShowNextFeature}
-        activePage="flashcards"
+        onShowBlurting={onShowBlurting}
       />
       <Button
         className="edit-btn"
