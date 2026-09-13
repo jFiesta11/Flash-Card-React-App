@@ -3,8 +3,8 @@ import closeIcon from "../../assets/images/close-sidebar.svg";
 function BlurtingSidebarContent({ isOpen, onCloseSidebar, onClearPage }) {
   return (
     <aside
-      className="blurting-sidebar-content"
-      data-blurting-sidebar="true"
+      className="sidebar-content blurting-sidebar-content"
+      data-sidebar="true"
       role="dialog"
       aria-label="Edit blurting workspace"
       aria-hidden={!isOpen}
@@ -12,18 +12,18 @@ function BlurtingSidebarContent({ isOpen, onCloseSidebar, onClearPage }) {
         transform: isOpen ? "translateX(0)" : "translateX(-110%)",
       }}
     >
-      <header className="blurting-sidebar-header">
+      <header className="sideHeader blurting-sidebar-header">
         <h2>Edit blurting</h2>
         <button
           type="button"
-          className="blurting-sidebar-close"
+          className="sidebar-close-btn blurting-sidebar-close"
           onClick={onCloseSidebar}
           aria-label="Close blurting editor"
         >
           <img src={closeIcon} alt="" />
         </button>
       </header>
-      <div className="blurting-sidebar-panel-body">
+      <div className="sidebar-content-container blurting-sidebar-panel-body">
         <p>Manage your active recall workspace.</p>
         <button
           type="button"

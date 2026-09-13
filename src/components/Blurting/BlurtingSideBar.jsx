@@ -4,10 +4,7 @@ import defaultUserProfile from "../../assets/images/user-default.svg";
 
 function BlurtingSideBar({ onShowFlashcards }) {
   return (
-    <aside
-      className="sidebar blurting-sidebar"
-      aria-label="Blurting navigation"
-    >
+    <aside className="sidebar" aria-label="Blurting navigation">
       <div className="user-buttons">
         <button type="button" className="sidebar-user-profile">
           <img src={defaultUserProfile} alt="User profile" />

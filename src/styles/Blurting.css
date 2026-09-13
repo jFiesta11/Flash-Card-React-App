@@ -1,4 +1,4 @@
-@import url(index.css);
+@import url("./App.css");
 .blurting-edit-btn {
   all: unset;
   position: fixed;
@@ -43,7 +43,7 @@
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
-.blurting-sidebar-content {
+.sidebar-content.blurting-sidebar-content {
   position: fixed;
   top: 0;
   left: 0;
@@ -58,7 +58,7 @@
   box-shadow: 3px 0 var(--shadow-color);
   transition: 0.2s ease-in-out;
 }
-.blurting-sidebar-header {
+.sideHeader.blurting-sidebar-header {
   display: flex;
   min-height: 60px;
   align-items: center;
@@ -73,7 +73,7 @@
   font-family: var(--text-font);
   font-size: 1.35rem;
 }
-.blurting-sidebar-close {
+.sidebar-close-btn.blurting-sidebar-close {
   display: flex;
   width: 40px;
   height: 40px;

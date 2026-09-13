@@ -1,0 +1,99 @@
+.sidebar {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  background-color: var(--sidebar-bg);
+  border-right: solid 3px var(--mute-border-color);
+  height: 100vh;
+  width: 65px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+
+  img {
+    width: 100%;
+  }
+}
+
+.user-buttons {
+  position: relative;
+  height: 13%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    height: 0px;
+    width: 45px;
+    border-radius: 5px;
+    border-bottom: 2px solid var(--shadow-color);
+  }
+}
+
+.sidebar-user-profile {
+  all: unset;
+  height: 40px;
+  width: 40px;
+  border: 3px solid var(--shadow-color);
+  border-radius: 30%;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+
+  &:hover {
+    transition: 0.1s ease-in-out;
+    border-color: var(--hover-shadow-color);
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.reviewer-buttons {
+  height: 87%;
+  gap: 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 15px;
+}
+
+.sidebar-toggle,
+.feature-entry {
+  all: unset;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.1s ease-in-out;
+  border: 2px solid var(--shadow-color);
+  border-radius: 7px;
+  &:hover {
+    background-color: var(--button-active);
+  }
+
+  &.active {
+    background-color: var(--button-active);
+    border-color: var(--mute-border-color);
+    box-shadow: none;
+    transform: none;
+  }
+  img {
+    height: 100%;
+  }
+  &:active {
+    transform: none;
+  }
+}

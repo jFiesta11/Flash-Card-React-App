@@ -15,9 +15,7 @@ function Blurting() {
     if (!isSidebarOpen) return;
 
     const handleClickOutside = (event) => {
-      const clickedInsideSidebar = event.target.closest(
-        "[data-blurting-sidebar]",
-      );
+      const clickedInsideSidebar = event.target.closest("[data-sidebar]");
       const clickedEditButton = event.target.closest(".blurting-edit-btn");
 
       if (!clickedInsideSidebar && !clickedEditButton) {
