@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 function Blurting() {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isFormatBarOpen, setIsFormatBarOpen] = useState(false);
   const [clearSignal, setClearSignal] = useState(0);
 
   useEffect(() => {
@@ -17,9 +18,17 @@ function Blurting() {
     const handleClickOutside = (event) => {
       const clickedInsideSidebar = event.target.closest("[data-sidebar]");
       const clickedEditButton = event.target.closest(".blurting-edit-btn");
+      const clickedFormatButton = event.target.closest(".blurting-format-btn");
+      const clickedFormatBar = event.target.closest(".blurting-format-bar");
 
-      if (!clickedInsideSidebar && !clickedEditButton) {
+      if (
+        !clickedInsideSidebar &&
+        !clickedEditButton &&
+        !clickedFormatButton &&
+        !clickedFormatBar
+      ) {
         setIsSidebarOpen(false);
+        setIsFormatBarOpen(false);
       }
     };
 
@@ -37,8 +46,18 @@ function Blurting() {
         ariaLabel="Toggle blurting editor"
         tooltip="Edit blurting"
       />
+      <button
+        type="button"
+        className="blurting-format-btn"
+        onClick={() => setIsFormatBarOpen((open) => !open)}
+        aria-label="Toggle text formatting toolbar"
+        data-tooltip="Format text"
+        aria-expanded={isFormatBarOpen}
+      >
+        Aa
+      </button>
       <main className="blurting-page">
-        <Canvas clearSignal={clearSignal} />
+        <Canvas clearSignal={clearSignal} isFormatBarOpen={isFormatBarOpen} />
       </main>
       <BlurtingSidebarContent
         isOpen={isSidebarOpen}

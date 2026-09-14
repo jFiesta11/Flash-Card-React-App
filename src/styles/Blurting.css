@@ -43,6 +43,102 @@
   opacity: 1;
   transform: translateY(-50%) translateX(0);
 }
+.blurting-format-btn {
+  all: unset;
+  position: fixed;
+  top: calc(42% + 44px);
+  left: 25%;
+  z-index: 3;
+  display: grid;
+  width: 35px;
+  height: 35px;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--dark-color);
+  cursor: pointer;
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  opacity: 0.4;
+  transition: 0.1s ease-in-out;
+}
+.blurting-format-btn:hover,
+.blurting-format-btn:focus-visible,
+.blurting-format-btn[aria-expanded="true"] {
+  background: var(--button-active);
+  opacity: 0.8;
+}
+.blurting-format-btn:focus-visible {
+  outline: 2px solid var(--dark-color);
+  outline-offset: 4px;
+}
+.blurting-format-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 30%;
+  left: calc(100% + 3px);
+  width: max-content;
+  padding: 4px 9px;
+  border: 1px solid var(--dark-color);
+  border-radius: 4px;
+  background-color: var(--dark-color);
+  color: var(--bg-color);
+  font-family: var(--small-text-font);
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(-4px);
+  transition: 0.1s ease-in-out;
+}
+.blurting-format-btn:hover::after,
+.blurting-format-btn:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+.blurting-format-bar {
+  position: fixed;
+  top: 42%;
+  left: calc(25% + 48px);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px;
+  border: 2px solid var(--dark-color);
+  border-radius: 7px;
+  background: var(--sidebar-bg);
+  box-shadow: 4px 4px var(--shadow-color);
+}
+.blurting-format-bar button,
+.blurting-format-bar select {
+  height: 30px;
+  border: 1px solid var(--mute-dark-color);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--dark-color);
+  cursor: pointer;
+  font-family: var(--small-text-font);
+  font-size: 0.95rem;
+}
+.blurting-format-bar button {
+  width: 30px;
+}
+.blurting-format-bar button:hover,
+.blurting-format-bar button:focus-visible,
+.blurting-format-bar select:hover,
+.blurting-format-bar select:focus-visible {
+  background: var(--button-active);
+}
+.blurting-format-bar button:focus-visible,
+.blurting-format-bar select:focus-visible {
+  outline: 2px solid var(--dark-color);
+  outline-offset: 1px;
+}
+.blurting-format-bar select {
+  max-width: 112px;
+  padding: 0 3px;
+}
 .sidebar-content.blurting-sidebar-content {
   position: fixed;
   top: 0;
@@ -129,22 +225,44 @@
   box-shadow: 8px 8px var(--shadow-color);
 }
 .canvas-textarea {
-  flex: 1;
-  min-height: 760px;
   width: 100%;
-  resize: none;
-  outline: none;
+}
+.canvas-textarea .ql-container {
   border: none;
   background-color: transparent;
   font-family: var(--small-text-font);
   font-size: 1rem;
-  line-height: 35px;
   font-weight: bolder;
+}
+.canvas-textarea .ql-editor {
+  min-height: 760px;
+  padding: 0;
+  color: var(--dark-color);
+  font-family: var(--small-text-font);
+  line-height: 35px;
   overflow: auto;
 }
-.canvas-textarea::placeholder {
+.canvas-textarea .ql-editor:focus {
+  outline: none;
+}
+.canvas-textarea .ql-editor.ql-blank::before {
+  left: 0;
   color: var(--shadow-color);
+  font-family: var(--small-text-font);
+  font-style: normal;
   opacity: 0.65;
+}
+.canvas-textarea .ql-font-Margarine {
+  font-family: var(--text-font);
+}
+.canvas-textarea .ql-font-IndieFlower {
+  font-family: var(--small-text-font);
+}
+.canvas-textarea .ql-font-Georgia {
+  font-family: Georgia, serif;
+}
+.canvas-textarea .ql-font-Verdana {
+  font-family: Verdana, sans-serif;
 }
 .canvas-footer {
   display: flex;
@@ -173,6 +291,19 @@
 }
 
 @media (max-width: 700px) {
+  .blurting-edit-btn,
+  .blurting-format-btn {
+    left: 81px;
+  }
+  .blurting-format-btn {
+    top: calc(42% + 44px);
+  }
+  .blurting-format-bar {
+    top: calc(42% + 88px);
+    left: 81px;
+    max-width: calc(100vw - 97px);
+    flex-wrap: wrap;
+  }
   .blurting-page {
     padding: 32px 16px 32px 81px;
   }
