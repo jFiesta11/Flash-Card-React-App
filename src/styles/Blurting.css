@@ -3,7 +3,7 @@
   all: unset;
   position: fixed;
   top: 42%;
-  left: 88px;
+  left: 25%;
   z-index: 3;
   width: 35px;
   height: 35px;
@@ -110,67 +110,34 @@
 .blurting-page {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
   min-height: 100vh;
-  padding: 64px 32px 64px 97px;
 }
 .blurting-workspace {
-  width: min(860px, 100%);
-}
-.blurting-header {
+  width: min(800px, 100%);
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 24px;
-  margin-bottom: 24px;
-}
-.blurting-kicker {
-  margin-bottom: 4px;
-  color: var(--shadow-color);
-  font-size: 1rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.blurting-header h1 {
-  font-size: clamp(2rem, 5vw, 3.4rem);
-}
-.blurting-description {
-  margin-top: 8px;
-  font-size: 1.2rem;
-}
-.blurting-status {
-  flex-shrink: 0;
-  padding: 8px 14px;
-  border: 2px solid var(--dark-color);
-  border-radius: 999px;
-  font-family: var(--small-text-font);
-  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .canvas-form {
-  display: flex;
-  flex-direction: column;
   min-height: min(650px, calc(100vh - 230px));
-  padding: 28px 32px 18px;
+  width: 600px;
+  padding: 20px 15px 15px 30px;
   border: 5px solid var(--mute-dark-color);
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: var(--sidebar-color, var(--sidebar-bg));
   box-shadow: 8px 8px var(--shadow-color);
 }
-.canvas-label {
-  margin-bottom: 14px;
-  font-family: var(--text-font);
-  font-size: 1.25rem;
-}
 .canvas-textarea {
   flex: 1;
-  min-height: 300px;
+  min-height: 760px;
   width: 100%;
   resize: none;
   outline: none;
   border: none;
   background-color: transparent;
   font-family: var(--small-text-font);
-  font-size: 1.4rem;
+  font-size: 1rem;
   line-height: 35px;
   font-weight: bolder;
   overflow: auto;
