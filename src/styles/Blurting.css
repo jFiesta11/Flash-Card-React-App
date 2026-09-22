@@ -130,6 +130,14 @@
 .blurting-format-bar select:focus-visible {
   background: var(--button-active);
 }
+.blurting-format-bar button.is-active {
+  background: var(--button-active);
+  box-shadow: inset 0 0 0 2px var(--dark-color);
+}
+.blurting-format-bar button.is-active strong,
+.blurting-format-bar button.is-active em {
+  font-weight: 900;
+}
 .blurting-format-bar button:focus-visible,
 .blurting-format-bar select:focus-visible {
   outline: 2px solid var(--dark-color);
@@ -216,7 +224,7 @@
   flex-direction: column;
 }
 .canvas-form {
-  min-height: min(650px, calc(100vh - 230px));
+  height: 90vh;
   width: 600px;
   padding: 20px 15px 15px 30px;
   border: 5px solid var(--mute-dark-color);
@@ -235,7 +243,7 @@
   font-weight: bolder;
 }
 .canvas-textarea .ql-editor {
-  min-height: 760px;
+  min-height: 650px;
   padding: 0;
   color: var(--dark-color);
   font-family: var(--small-text-font);
