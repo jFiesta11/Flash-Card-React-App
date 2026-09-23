@@ -7,8 +7,10 @@
   --shadow-color: #70798c;
   --mute-border-color: #70798c6b;
   --hover-shadow-color: #5c626d;
-  --text-font: "Margarine", "sans-serif";
-  --small-text-font: "Indie Flower", cursive;
+  --fallback-sans: "Segoe UI", "Trebuchet MS", sans-serif;
+  --fallback-serif: Georgia, serif;
+  --text-font: "Margarine", var(--fallback-sans);
+  --small-text-font: "Indie Flower", "Comic Sans MS", cursive;
 }
 
 *,
@@ -21,9 +23,9 @@ h1,
 h2,
 h3,
 li {
-  font-family: "Margarine", "sans-serif";
+  font-family: var(--text-font);
 }
 p {
-  font-family: "Indie Flower", cursive;
+  font-family: var(--small-text-font);
   font-weight: 1000;
 }

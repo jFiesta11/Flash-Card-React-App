@@ -13,10 +13,13 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@tiptap/extension-text-style": "^3.31.3",
+    "@tiptap/react": "^3.31.3",
+    "@tiptap/starter-kit": "^3.31.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-quill-new": "^3.8.3",
-    "react-router-dom": "^7.18.3"
+    "react-router-dom": "^7.18.3",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

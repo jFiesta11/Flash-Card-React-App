@@ -1,22 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import Quill from "quill";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { TextStyle } from "@tiptap/extension-text-style";
 
 const fontSizes = ["small", "normal", "large", "huge"];
+const fontSizeStyles = {
+  small: "0.85rem",
+  normal: "1rem",
+  large: "1.5rem",
+  huge: "2rem",
+};
 const fontOptions = [
   { value: "", label: "Font" },
   { value: "Margarine", label: "Margarine" },
-  { value: "IndieFlower", label: "Indie Flower" },
+  { value: "Indie Flower", label: "Indie Flower" },
   { value: "Georgia", label: "Georgia" },
   { value: "Verdana", label: "Verdana" },
 ];
-const formats = ["bold", "italic", "font", "size"];
-const modules = { toolbar: false };
 
 function Canvas({ clearSignal, isFormatBarOpen }) {
   const formRef = useRef(null);
-  const editorRef = useRef(null);
   const [content, setContent] = useState("");
   const [activeFormats, setActiveFormats] = useState({
     bold: false,
@@ -25,39 +28,58 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
   const [fontChoice, setFontChoice] = useState("");
   const [sizeChoice, setSizeChoice] = useState("normal");
 
+  const editor = useEditor({
+    extensions: [StarterKit, TextStyle],
+    content: "",
+    editorProps: {
+      attributes: {
+        class: "canvas-textarea",
+        id: "blurting-notes",
+        placeholder: "Blurt it out..",
+      },
+    },
+    onUpdate: ({ editor }) => {
+      setContent(editor.getHTML());
+      syncFormatButtons(editor);
+    },
+  });
+
+  const syncFormatButtons = useCallback(
+    (editorInstance = editor) => {
+      if (!editorInstance) return;
+
+      const textStyle = editorInstance.getAttributes("textStyle") ?? {};
+
+      setActiveFormats({
+        bold: editorInstance.isActive("bold"),
+        italic: editorInstance.isActive("italic"),
+      });
+      setFontChoice(textStyle.fontFamily || "");
+      setSizeChoice(normalizeFontSize(textStyle.fontSize));
+    },
+    [editor],
+  );
+
   useEffect(() => {
-    const Font = Quill.import("attributors/style/font");
-    if (Font && !Font.whitelist.includes("Margarine")) {
-      Font.whitelist = ["Margarine", "IndieFlower", "Georgia", "Verdana"];
-      Quill.register(Font, true);
-    }
-  }, []);
-
-  const getEditor = useCallback(() => editorRef.current?.getEditor(), []);
-
-  useEffect(() => {
-    if (clearSignal === 0) return;
-
-    const editor = getEditor();
     if (!editor) return;
+    syncFormatButtons(editor);
+  }, [editor, syncFormatButtons]);
 
-    editor.setText("");
-    editor.setSelection(0, 0, "user");
+  useEffect(() => {
+    if (clearSignal === 0 || !editor) return;
+
+    editor.chain().clearContent().focus().run();
     setContent("");
     setActiveFormats({ bold: false, italic: false });
     setFontChoice("");
     setSizeChoice("normal");
-  }, [clearSignal, getEditor]);
+  }, [clearSignal, editor]);
 
   const handleClear = (event) => {
     event.currentTarget.form?.reset();
 
-    const editor = getEditor();
-    if (editor) {
-      editor.setText("");
-      editor.setSelection(0, 0, "user");
-    }
-
+    if (!editor) return;
+    editor.chain().clearContent().focus().run();
     setContent("");
     setActiveFormats({ bold: false, italic: false });
     setFontChoice("");
@@ -65,102 +87,75 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
   };
 
   const applyFormat = useCallback(
-    (format, value = null) => {
-      const editor = getEditor();
+    (format) => {
       if (!editor) return;
 
-      const range = editor.getSelection(true);
-      editor.focus();
-
-      const nextValue =
-        value === null ? !activeFormats[format] : Boolean(value);
-      editor.format(format, nextValue, "user");
-
-      if (range) {
-        editor.setSelection(range.index, range.length, "user");
-      }
+      editor.chain().focus();
 
       if (format === "bold") {
-        setActiveFormats((previous) => ({ ...previous, bold: nextValue }));
+        editor.chain().toggleBold().run();
       }
 
       if (format === "italic") {
-        setActiveFormats((previous) => ({ ...previous, italic: nextValue }));
+        editor.chain().toggleItalic().run();
       }
+
+      syncFormatButtons(editor);
     },
-    [activeFormats, getEditor],
+    [editor, syncFormatButtons],
   );
 
   const handleFontChange = (value) => {
-    setFontChoice(value);
-
-    const editor = getEditor();
     if (!editor) return;
 
-    editor.focus();
-    const range = editor.getSelection(true);
+    editor.chain().focus();
 
     if (!value) {
-      editor.format("font", false, "user");
-      if (range) {
-        editor.setSelection(range.index, range.length, "user");
-      }
-      return;
+      editor.chain().unsetMark("textStyle").run();
+      setFontChoice("");
+    } else {
+      editor.chain().setMark("textStyle", { fontFamily: value }).run();
+      setFontChoice(value);
     }
 
-    editor.format("font", value, "user");
-    if (range) {
-      editor.setSelection(range.index, range.length, "user");
-    }
+    syncFormatButtons(editor);
   };
 
   const handleSizeChange = (value) => {
-    setSizeChoice(value);
-    const normalizedValue = value === "normal" ? false : value;
-
-    const editor = getEditor();
     if (!editor) return;
 
-    editor.focus();
-    const range = editor.getSelection(true);
-    editor.format("size", normalizedValue, "user");
-    if (range) {
-      editor.setSelection(range.index, range.length, "user");
+    editor.chain().focus();
+
+    if (value === "normal") {
+      editor.chain().unsetMark("textStyle").run();
+      setSizeChoice("normal");
+    } else {
+      editor
+        .chain()
+        .setMark("textStyle", { fontSize: fontSizeStyles[value] })
+        .run();
+      setSizeChoice(value);
     }
+
+    syncFormatButtons(editor);
   };
 
   const handleEditorKeyDown = (event) => {
-    const editor = getEditor();
     if (!editor) return;
 
     if (event.key === "Tab") {
       event.preventDefault();
-      const range = editor.getSelection(true);
-      if (!range) return;
-
-      editor.insertText(range.index, "\u00a0\u00a0\u00a0\u00a0", "user");
-      editor.setSelection(range.index + 4, 0, "user");
-      return;
+      editor.chain().focus().insertContent("    ").run();
     }
-
-    // Let Quill handle Enter as a single line break. Manual insertion here adds
-    // an extra blank line because Quill already creates a new paragraph for Enter.
   };
 
   return (
     <section className="blurting-workspace">
       <form ref={formRef} className="canvas-form">
-        <ReactQuill
-          id="blurting-notes"
-          className="canvas-textarea"
-          ref={editorRef}
-          theme="snow"
-          value={content}
-          onChange={setContent}
+        <EditorContent
+          editor={editor}
+          className="canvas-editor"
           onKeyDown={handleEditorKeyDown}
-          placeholder="Blurt it out.."
-          modules={modules}
-          formats={formats}
         />
         {isFormatBarOpen && (
           <div
@@ -223,6 +218,20 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
       </form>
     </section>
   );
+}
+
+function normalizeFontSize(value) {
+  if (!value) {
+    return "normal";
+  }
+
+  const normalized = value.toLowerCase().replace(/\s+/g, "");
+
+  if (normalized === fontSizeStyles.small) return "small";
+  if (normalized === fontSizeStyles.large) return "large";
+  if (normalized === fontSizeStyles.huge) return "huge";
+
+  return "normal";
 }
 
 export default Canvas;

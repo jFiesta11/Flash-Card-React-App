@@ -232,45 +232,41 @@
   background-color: var(--sidebar-color, var(--sidebar-bg));
   box-shadow: 8px 8px var(--shadow-color);
 }
-.canvas-textarea {
+.canvas-editor {
   width: 100%;
 }
-.canvas-textarea .ql-container {
-  border: none;
-  background-color: transparent;
-  font-family: var(--small-text-font);
-  font-size: 1rem;
-  font-weight: bolder;
-}
-.canvas-textarea .ql-editor {
+.canvas-textarea {
   min-height: 650px;
   padding: 0;
+  border: none;
+  background-color: transparent;
   color: var(--dark-color);
   font-family: var(--small-text-font);
   line-height: 35px;
   overflow: auto;
 }
-.canvas-textarea .ql-editor:focus {
+.canvas-textarea:focus {
   outline: none;
 }
-.canvas-textarea .ql-editor.ql-blank::before {
-  left: 0;
+.canvas-textarea p {
+  margin: 0;
+  min-height: 1.2em;
+}
+.canvas-textarea .is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
   color: var(--shadow-color);
   font-family: var(--small-text-font);
   font-style: normal;
   opacity: 0.65;
+  pointer-events: none;
 }
-.canvas-textarea .ql-font-Margarine {
-  font-family: var(--text-font);
+.canvas-textarea [style*="font-family"] {
+  font-family: inherit;
 }
-.canvas-textarea .ql-font-IndieFlower {
-  font-family: var(--small-text-font);
-}
-.canvas-textarea .ql-font-Georgia {
-  font-family: Georgia, serif;
-}
-.canvas-textarea .ql-font-Verdana {
-  font-family: Verdana, sans-serif;
+.canvas-textarea [style*="font-size"] {
+  line-height: 1.4;
 }
 .canvas-footer {
   display: flex;
