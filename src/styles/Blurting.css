@@ -224,6 +224,8 @@
   flex-direction: column;
 }
 .canvas-form {
+  display: flex;
+  flex-direction: column;
   height: 90vh;
   width: 600px;
   padding: 20px 15px 15px 30px;
@@ -234,9 +236,13 @@
 }
 .canvas-editor {
   width: 100%;
+  flex: 1;
+  min-height: 0;
 }
+.canvas-editor .ProseMirror,
 .canvas-textarea {
   min-height: 650px;
+  width: 100%;
   padding: 0;
   border: none;
   background-color: transparent;
@@ -244,9 +250,14 @@
   font-family: var(--small-text-font);
   line-height: 35px;
   overflow: auto;
-}
-.canvas-textarea:focus {
   outline: none;
+}
+.canvas-editor .ProseMirror:focus,
+.canvas-editor .ProseMirror.ProseMirror-focused,
+.canvas-textarea:focus,
+.canvas-textarea.ProseMirror-focused {
+  outline: none;
+  box-shadow: none;
 }
 .canvas-textarea p {
   margin: 0;
@@ -261,9 +272,6 @@
   font-style: normal;
   opacity: 0.65;
   pointer-events: none;
-}
-.canvas-textarea [style*="font-family"] {
-  font-family: inherit;
 }
 .canvas-textarea [style*="font-size"] {
   line-height: 1.4;
@@ -292,6 +300,39 @@
 .canvas-clear:hover,
 .canvas-clear:focus-visible {
   background: var(--button-active);
+}
+.canvas-about-button-wrapper {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 10;
+}
+.canvas-about-button {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 3px solid var(--dark-color);
+  border-radius: 50%;
+  background: var(--sidebar-bg);
+  box-shadow: 4px 4px var(--shadow-color);
+  color: var(--dark-color);
+  cursor: pointer;
+  font-family: var(--text-font);
+  font-size: 1.3rem;
+  font-weight: 700;
+  transition:
+    transform 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+.canvas-about-button:hover,
+.canvas-about-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 6px 6px var(--shadow-color);
+}
+.canvas-about-button:focus-visible {
+  outline: 2px solid var(--dark-color);
+  outline-offset: 3px;
 }
 
 @media (max-width: 700px) {
@@ -323,5 +364,9 @@
   .canvas-footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+  .canvas-about-button-wrapper {
+    right: 16px;
+    bottom: 16px;
   }
 }

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { TextStyle } from "@tiptap/extension-text-style";
+import About from "./About";
 
 const fontSizes = ["small", "normal", "large", "huge"];
 const fontSizeStyles = {
@@ -12,14 +13,36 @@ const fontSizeStyles = {
 };
 const fontOptions = [
   { value: "", label: "Font" },
+  { value: "Calibri, 'Segoe UI', sans-serif", label: "Calibri" },
+  { value: "Aptos, 'Segoe UI', sans-serif", label: "Aptos" },
+  { value: "Arial, Helvetica, sans-serif", label: "Arial" },
+  { value: "Helvetica, Arial, sans-serif", label: "Helvetica" },
+  { value: "Verdana, Geneva, sans-serif", label: "Verdana" },
+  { value: "'Trebuchet MS', sans-serif", label: "Trebuchet MS" },
+  { value: "'Open Sans', sans-serif", label: "Open Sans" },
+  { value: "Roboto, sans-serif", label: "Roboto" },
+  { value: "Lato, sans-serif", label: "Lato" },
+  { value: "Inter, sans-serif", label: "Inter" },
+  { value: "'Times New Roman', serif", label: "Times New Roman" },
+  { value: "Georgia, serif", label: "Georgia" },
+  { value: "Garamond, serif", label: "Garamond" },
+  { value: "Cambria, serif", label: "Cambria" },
+  { value: "Baskerville, serif", label: "Baskerville" },
+  { value: "'Lora', serif", label: "Lora" },
+  { value: "'Merriweather', serif", label: "Merriweather" },
+  { value: "'Century Schoolbook', serif", label: "Century Schoolbook" },
+  { value: "'Courier New', monospace", label: "Courier New" },
+  { value: "Consolas, monospace", label: "Consolas" },
+  { value: "'Courier Prime', monospace", label: "Courier Prime" },
+  { value: "'Fira Code', monospace", label: "Fira Code" },
   { value: "Margarine", label: "Margarine" },
-  { value: "Indie Flower", label: "Indie Flower" },
-  { value: "Georgia", label: "Georgia" },
-  { value: "Verdana", label: "Verdana" },
+  { value: "'Indie Flower', cursive", label: "Indie Flower" },
 ];
 
 function Canvas({ clearSignal, isFormatBarOpen }) {
   const formRef = useRef(null);
+  const fontChoiceRef = useRef("");
+  const sizeChoiceRef = useRef("normal");
   const [content, setContent] = useState("");
   const [activeFormats, setActiveFormats] = useState({
     bold: false,
@@ -49,13 +72,18 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
       if (!editorInstance) return;
 
       const textStyle = editorInstance.getAttributes("textStyle") ?? {};
+      const nextFont = textStyle.fontFamily || fontChoiceRef.current || "";
+      const nextSize =
+        normalizeFontSize(textStyle.fontSize) || sizeChoiceRef.current;
 
       setActiveFormats({
         bold: editorInstance.isActive("bold"),
         italic: editorInstance.isActive("italic"),
       });
-      setFontChoice(textStyle.fontFamily || "");
-      setSizeChoice(normalizeFontSize(textStyle.fontSize));
+      setFontChoice(nextFont);
+      setSizeChoice(nextSize);
+      fontChoiceRef.current = nextFont;
+      sizeChoiceRef.current = nextSize;
     },
     [editor],
   );
@@ -73,6 +101,8 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
     setActiveFormats({ bold: false, italic: false });
     setFontChoice("");
     setSizeChoice("normal");
+    fontChoiceRef.current = "";
+    sizeChoiceRef.current = "normal";
   }, [clearSignal, editor]);
 
   const handleClear = (event) => {
@@ -84,20 +114,22 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
     setActiveFormats({ bold: false, italic: false });
     setFontChoice("");
     setSizeChoice("normal");
+    fontChoiceRef.current = "";
+    sizeChoiceRef.current = "normal";
   };
 
   const applyFormat = useCallback(
     (format) => {
       if (!editor) return;
 
-      editor.chain().focus();
+      const chain = editor.chain().focus();
 
       if (format === "bold") {
-        editor.chain().toggleBold().run();
+        chain.toggleBold().run();
       }
 
       if (format === "italic") {
-        editor.chain().toggleItalic().run();
+        chain.toggleItalic().run();
       }
 
       syncFormatButtons(editor);
@@ -108,14 +140,19 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
   const handleFontChange = (value) => {
     if (!editor) return;
 
-    editor.chain().focus();
+    const chain = editor.chain().focus();
+    const root = editor.view?.dom;
 
     if (!value) {
-      editor.chain().unsetMark("textStyle").run();
+      chain.unsetMark("textStyle").run();
+      if (root) root.style.fontFamily = "";
       setFontChoice("");
+      fontChoiceRef.current = "";
     } else {
-      editor.chain().setMark("textStyle", { fontFamily: value }).run();
+      chain.setMark("textStyle", { fontFamily: value }).run();
+      if (root) root.style.fontFamily = value;
       setFontChoice(value);
+      fontChoiceRef.current = value;
     }
 
     syncFormatButtons(editor);
@@ -124,17 +161,19 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
   const handleSizeChange = (value) => {
     if (!editor) return;
 
-    editor.chain().focus();
+    const chain = editor.chain().focus();
+    const root = editor.view?.dom;
 
     if (value === "normal") {
-      editor.chain().unsetMark("textStyle").run();
+      chain.unsetMark("textStyle").run();
+      if (root) root.style.fontSize = "";
       setSizeChoice("normal");
+      sizeChoiceRef.current = "normal";
     } else {
-      editor
-        .chain()
-        .setMark("textStyle", { fontSize: fontSizeStyles[value] })
-        .run();
+      chain.setMark("textStyle", { fontSize: fontSizeStyles[value] }).run();
+      if (root) root.style.fontSize = fontSizeStyles[value];
       setSizeChoice(value);
+      sizeChoiceRef.current = value;
     }
 
     syncFormatButtons(editor);
@@ -216,6 +255,9 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
           </button>
         </footer>
       </form>
+      <div className="canvas-about-button-wrapper">
+        <About />
+      </div>
     </section>
   );
 }
