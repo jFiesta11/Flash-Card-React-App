@@ -4,6 +4,7 @@ import Statusbar from "./Statusbar";
 import Card from "./Card";
 import SideBar from "./SideBar";
 import editIcon from "../../assets/images/edit-btn.svg";
+import About from "./About";
 
 function FlashCard({
   card,
@@ -47,6 +48,9 @@ function FlashCard({
         <Button className="card-btn" label="Flip" onClick={flip} />
         <Button className="card-btn" label="Next" onClick={next} />
         <Button className="card-btn" label="Shuffle" onClick={shuffle} />
+      </div>
+      <div className="study-about-button-wrapper">
+        <About />
       </div>
     </>
   );

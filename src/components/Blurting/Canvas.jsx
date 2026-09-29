@@ -255,7 +255,7 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
           </button>
         </footer>
       </form>
-      <div className="canvas-about-button-wrapper">
+      <div className="study-about-button-wrapper">
         <About />
       </div>
     </section>

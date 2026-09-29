@@ -7,8 +7,8 @@ function About() {
     <>
       <button
         type="button"
-        className="canvas-about-button"
-        aria-label="About"
+        className="study-about-button"
+        aria-label="About blurting"
         onClick={() => setIsOpen(true)}
       >
         ?
@@ -16,31 +16,44 @@ function About() {
 
       {isOpen && (
         <div
-          className="canvas-about-overlay"
+          className="study-about-overlay"
           onClick={() => setIsOpen(false)}
           role="presentation"
         >
           <div
-            className="canvas-about-modal"
+            className="study-about-modal"
             onClick={(event) => event.stopPropagation()}
             role="dialog"
             aria-modal="true"
-            aria-label="About information"
+            aria-labelledby="blurting-about-title"
           >
             <button
               type="button"
-              className="canvas-about-close"
+              className="study-about-close"
               aria-label="Close about dialog"
               onClick={() => setIsOpen(false)}
             >
               ×
             </button>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
+            <h2 id="blurting-about-title">About Blurting</h2>
+            <section>
+              <h3>Recall first, check second</h3>
+              <p>
+                Choose a topic, put away your notes, and write or explain
+                everything you can remember in your own words. Keep going even
+                when your first ideas are incomplete; the effort to retrieve
+                information is the point.
+              </p>
+            </section>
+            <section>
+              <h3>Review what you missed</h3>
+              <p>
+                Compare your blurt with reliable notes or a textbook. Correct
+                mistakes, add missing details in a different color, and make a
+                short list of gaps to revisit. This helps you see what you know
+                and where to focus next.
+              </p>
+            </section>
           </div>
         </div>
       )}
