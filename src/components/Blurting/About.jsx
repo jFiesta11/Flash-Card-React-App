@@ -35,7 +35,7 @@ function About() {
             >
               ×
             </button>
-            <h2 id="blurting-about-title">About Blurting</h2>
+            <h2 id="blurting-about-title">How to use Blurting</h2>
             <section>
               <h3>Recall first, check second</h3>
               <p>

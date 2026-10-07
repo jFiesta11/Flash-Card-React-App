@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { TextStyle } from "@tiptap/extension-text-style";
+import { FontFamily, FontSize, TextStyle } from "@tiptap/extension-text-style";
 import About from "./About";
 
+const defaultFont = "'Calibri', 'Segoe UI', sans-serif";
 const fontSizes = ["small", "normal", "large", "huge"];
 const fontSizeStyles = {
   small: "0.85rem",
@@ -12,8 +13,7 @@ const fontSizeStyles = {
   huge: "2rem",
 };
 const fontOptions = [
-  { value: "", label: "Font" },
-  { value: "Calibri, 'Segoe UI', sans-serif", label: "Calibri" },
+  { value: defaultFont, label: "Calibri Body" },
   { value: "Aptos, 'Segoe UI', sans-serif", label: "Aptos" },
   { value: "Arial, Helvetica, sans-serif", label: "Arial" },
   { value: "Helvetica, Arial, sans-serif", label: "Helvetica" },
@@ -41,18 +41,16 @@ const fontOptions = [
 
 function Canvas({ clearSignal, isFormatBarOpen }) {
   const formRef = useRef(null);
-  const fontChoiceRef = useRef("");
-  const sizeChoiceRef = useRef("normal");
-  const [content, setContent] = useState("");
   const [activeFormats, setActiveFormats] = useState({
     bold: false,
     italic: false,
   });
-  const [fontChoice, setFontChoice] = useState("");
+  const [fontChoice, setFontChoice] = useState(defaultFont);
   const [sizeChoice, setSizeChoice] = useState("normal");
+  const fontStyle = useMemo(() => ({ fontFamily: fontChoice }), [fontChoice]);
 
   const editor = useEditor({
-    extensions: [StarterKit, TextStyle],
+    extensions: [StarterKit, TextStyle, FontFamily, FontSize],
     content: "",
     editorProps: {
       attributes: {
@@ -61,10 +59,6 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
         placeholder: "Blurt it out..",
       },
     },
-    onUpdate: ({ editor }) => {
-      setContent(editor.getHTML());
-      syncFormatButtons(editor);
-    },
   });
 
   const syncFormatButtons = useCallback(
@@ -72,21 +66,33 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
       if (!editorInstance) return;
 
       const textStyle = editorInstance.getAttributes("textStyle") ?? {};
-      const nextFont = textStyle.fontFamily || fontChoiceRef.current || "";
-      const nextSize =
-        normalizeFontSize(textStyle.fontSize) || sizeChoiceRef.current;
-
-      setActiveFormats({
+      const nextFont = textStyle.fontFamily || defaultFont;
+      const nextSize = normalizeFontSize(textStyle.fontSize);
+      const nextFormats = {
         bold: editorInstance.isActive("bold"),
         italic: editorInstance.isActive("italic"),
-      });
-      setFontChoice(nextFont);
-      setSizeChoice(nextSize);
-      fontChoiceRef.current = nextFont;
-      sizeChoiceRef.current = nextSize;
+      };
+
+      setActiveFormats((current) =>
+        current.bold === nextFormats.bold &&
+        current.italic === nextFormats.italic
+          ? current
+          : nextFormats,
+      );
+      setFontChoice((current) => (current === nextFont ? current : nextFont));
+      setSizeChoice((current) => (current === nextSize ? current : nextSize));
     },
     [editor],
   );
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateFormatButtons = () => syncFormatButtons(editor);
+    editor.on("transaction", updateFormatButtons);
+
+    return () => editor.off("transaction", updateFormatButtons);
+  }, [editor, syncFormatButtons]);
 
   useEffect(() => {
     if (!editor) return;
@@ -97,12 +103,9 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
     if (clearSignal === 0 || !editor) return;
 
     editor.chain().clearContent().focus().run();
-    setContent("");
     setActiveFormats({ bold: false, italic: false });
-    setFontChoice("");
+    setFontChoice(defaultFont);
     setSizeChoice("normal");
-    fontChoiceRef.current = "";
-    sizeChoiceRef.current = "normal";
   }, [clearSignal, editor]);
 
   const handleClear = (event) => {
@@ -110,12 +113,9 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
 
     if (!editor) return;
     editor.chain().clearContent().focus().run();
-    setContent("");
     setActiveFormats({ bold: false, italic: false });
-    setFontChoice("");
+    setFontChoice(defaultFont);
     setSizeChoice("normal");
-    fontChoiceRef.current = "";
-    sizeChoiceRef.current = "normal";
   };
 
   const applyFormat = useCallback(
@@ -140,40 +140,20 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
   const handleFontChange = (value) => {
     if (!editor) return;
 
-    const chain = editor.chain().focus();
-    const root = editor.view?.dom;
-
-    if (!value) {
-      chain.unsetMark("textStyle").run();
-      if (root) root.style.fontFamily = "";
-      setFontChoice("");
-      fontChoiceRef.current = "";
-    } else {
-      chain.setMark("textStyle", { fontFamily: value }).run();
-      if (root) root.style.fontFamily = value;
-      setFontChoice(value);
-      fontChoiceRef.current = value;
-    }
-
+    editor.chain().focus().setFontFamily(value).run();
+    setFontChoice(value);
     syncFormatButtons(editor);
   };
 
   const handleSizeChange = (value) => {
     if (!editor) return;
 
-    const chain = editor.chain().focus();
-    const root = editor.view?.dom;
-
     if (value === "normal") {
-      chain.unsetMark("textStyle").run();
-      if (root) root.style.fontSize = "";
+      editor.chain().focus().unsetFontSize().run();
       setSizeChoice("normal");
-      sizeChoiceRef.current = "normal";
     } else {
-      chain.setMark("textStyle", { fontSize: fontSizeStyles[value] }).run();
-      if (root) root.style.fontSize = fontSizeStyles[value];
+      editor.chain().focus().setFontSize(fontSizeStyles[value]).run();
       setSizeChoice(value);
-      sizeChoiceRef.current = value;
     }
 
     syncFormatButtons(editor);
@@ -225,11 +205,16 @@ function Canvas({ clearSignal, isFormatBarOpen }) {
             <select
               aria-label="Font family"
               value={fontChoice}
+              style={fontStyle}
               onMouseDown={(event) => event.stopPropagation()}
               onChange={(event) => handleFontChange(event.target.value)}
             >
               {fontOptions.map((option) => (
-                <option key={option.value || "default"} value={option.value}>
+                <option
+                  key={option.value}
+                  value={option.value}
+                  style={{ fontFamily: option.value }}
+                >
                   {option.label}
                 </option>
               ))}
